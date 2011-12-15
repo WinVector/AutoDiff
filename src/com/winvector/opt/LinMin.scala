@@ -1,7 +1,7 @@
 package com.winvector.opt
 
 /**
- * Copyright 2010 John Mount / Win-Vector LLC
+ * Copyright 2010-2011 John Mount / Win-Vector LLC
  * Released under GNUv3 GPLv3 License (see http://www.gnu.org/licenses/gpl.html)
  * For details/instructions see "Automatic Differentiation with Scala" from www.win-vector.com
  */
@@ -23,12 +23,10 @@ object LinMin {
     // fu<=fm, p>u
     def insertU(p:Double) = {
       val fp = f(p)
-      if(fl<=fm) {
-        l = m
-        fl = fm
+      if(fu<fm) {
+    	  m = u
+    	  fm = fu
       }
-      m = u
-      fm = fu
       u = p
       fu = fp
     }
@@ -37,12 +35,10 @@ object LinMin {
     // fl<=fm, p<l
     def insertL(p:Double) = {
       val fp = f(p)
-      if(fu<=fm) {
-        u = m
-        fu = fm
+      if(fl<fm) {
+         m = l
+         fm = fl
       }
-      m = l
-      fm = fl
       l = p
       fl = fp
     }
@@ -112,32 +108,7 @@ object LinMin {
       }
       val c = 0.5*(scala.math.sqrt(5.0)-1) // about 0.618, the Fibonacci ratio
       val tol = 1.0e-6
-      var phaseNum:Int = 0
-      var lastWasParabola:Boolean = false
       while(((bracket.u - bracket.l)>tol)&&(evals<maxEvals)) {
-        var parabolaStepTaken = false
-        if((phaseNum%5)==0) {
-          lastWasParabola = true
-          // try a parabola step
-          val p = parabolaMin(bracket.l,bracket.fl,bracket.m,bracket.fm,bracket.u,bracket.fu)
-          if((p>bracket.l)&&(p<bracket.u)) {
-            parabolaStepTaken = true
-            evals += 1
-            val improvedMin = bracket.insertMid(p)
-            if(improvedMin) {  // try to end search
-              if(p+0.4*tol<bracket.u) {
-                evals += 1
-                bracket.insertMid(p+0.4*tol)
-              }
-              if(p-0.4*tol>bracket.l) {
-                evals += 1
-                bracket.insertMid(p-0.4*tol)
-              }
-            }
-          }
-        }
-        if(!parabolaStepTaken) {
-          lastWasParabola = false
           evals += 1
           if((bracket.u - bracket.m)>=(bracket.m - bracket.l)) {
             val p = (1.0-c)*bracket.m + c*bracket.u
@@ -146,22 +117,18 @@ object LinMin {
             val p = c*bracket.l + (1.0-c)*bracket.m
             bracket.insertMid(p)
           }
-        }
-        phaseNum += 1
       }
-      // always try to polish with a final parabola step
-      if((evals<maxEvals)&&(!lastWasParabola)) {
-        val p = parabolaMin(bracket.l,bracket.fl,bracket.m,bracket.fm,bracket.u,bracket.fu)
-        if((p>bracket.l)&&(p<bracket.u)) {
-          evals += 1
-          bracket.insertMid(p)
-        }
+      // try to polish with a final parabola step
+      val p = parabolaMin(bracket.l,bracket.fl,bracket.m,bracket.fm,bracket.u,bracket.fu)
+      if((p>bracket.l)&&(p<bracket.u)&&(p!=bracket.m)) {
+        evals += 1
+        bracket.insertMid(p)
       }
       if(debug) {
         println("\tlinmin final bracket(" + evals + "): " + bracket)
       }
     } else {
-      // never established initial bracket
+      // never established initial bracket, return best point seen
       if(bracket.fl<bracket.fm) {
         bracket.m = bracket.l
         bracket.fm = bracket.fl
