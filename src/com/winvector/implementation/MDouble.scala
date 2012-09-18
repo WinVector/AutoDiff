@@ -20,7 +20,6 @@ object FDouble extends Field[MDouble] {
   def zero= z
   def one = o
   def inject(v:Double) = new MDouble(v)
-  def project(v:MDouble) = v.v
   override def toString = "FDouble"
   def array(n:Int) = { 
 	  val a = new Array[MDouble](n)
@@ -45,7 +44,9 @@ class MDouble private[implementation] (private[implementation] val v:Double) ext
     }
     new MDouble(v / that.v)
   }
-  
+
+  def project = v
+
   // more complicated
   def pow(exp:Double) = {
     if(v<0.0) {
@@ -66,21 +67,10 @@ class MDouble private[implementation] (private[implementation] val v:Double) ext
     }
     new MDouble(scala.math.log(v))
   }
-  def abs = new MDouble(scala.math.abs(v))
-  def sq = new MDouble(v*v)
   def sqrt = new MDouble(scala.math.sqrt(v))
-  def max(o:MDouble) = new MDouble(scala.math.max(v,o.v))
-  def min(o:MDouble) = new MDouble(scala.math.min(v,o.v))
-  
-  // comparison functions
-  override def > (that: MDouble) = (v>that.v)
-  override def >= (that: MDouble) = (v>=that.v)
-  override def == (that: MDouble) = (v==that.v)
-  override def != (that: MDouble) = (v!=that.v)
-  override def < (that: MDouble) = (v<that.v)
-  override def <= (that: MDouble) = (v<=that.v)
 
   // utility
+  def self = { this }
   def field:Field[MDouble] = FDouble
   override def toString = "" + v
   

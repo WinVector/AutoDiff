@@ -88,7 +88,7 @@ object HelperFns {
     if(dim>0) {
       val field = p(0).field
       for(i <- 0 to (dim-1)) {
-    	ret(i) = field.project(p(i))
+    	ret(i) = p(i).project
       }
     }
     ret

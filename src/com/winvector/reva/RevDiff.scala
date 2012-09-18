@@ -14,7 +14,7 @@ import com.winvector.implementation.HelperFns._
 
 class RevDiff(fn:VectorFN) extends GFunction {
 
-  def apply(x: Array[Double]): Double = FDouble.project(fn.apply[MDouble](injectV(FDouble,x)))
+  def apply(x: Array[Double]): Double = fn.apply[MDouble](injectV(FDouble,x)).project
 
   def gradEval(x:Array[Double]):(Double,Array[Double]) = {
     val dim = x.length

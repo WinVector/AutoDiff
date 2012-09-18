@@ -6,7 +6,7 @@ package com.winvector.definition
  * For details/instructions see "Automatic Differentiation with Scala" from www.win-vector.com
  */
 
-// not really the Scala Function1 triat (due to extra free type parameters) but imitating the form for later use
+// not really the Scala Function1 trait (due to extra free type parameters) but imitating the form for later use
 abstract trait VectorFN {
   def apply[Y<:NumberBase[Y]](x:Array[Y]):Y
 }

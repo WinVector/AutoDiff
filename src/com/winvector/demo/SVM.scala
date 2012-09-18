@@ -429,7 +429,7 @@ object SVM {
             val x = (range*xi)/plotPoints
             for(yi <- -plotPoints to plotPoints) {
               val y = (range*yi)/plotPoints
-              val v:Double = FDouble.project(px(param,Array[Double](x,y))) - 0.5
+              val v:Double = px(param,Array[Double](x,y)).project - 0.5
               var d = 0
               if(v>0) {
                 d = 1

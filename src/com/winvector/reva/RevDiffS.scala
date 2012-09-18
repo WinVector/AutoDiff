@@ -57,7 +57,7 @@ class RevDiffS[D](fn:SummableFN,varyingData:Iterable[D],conv:D=>Array[Double]) e
         for(j <- 0 until varyingDim) {
            tmp(j) = field.inject(x(j))
         }
-        r += FDouble.project(fn.apply(pM,tmp))
+        r += fn.apply(pM,tmp).project
      }
      r
   }

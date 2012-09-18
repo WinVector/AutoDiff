@@ -36,7 +36,7 @@ class RevDiffQ(fn:VectorFN) extends GFunction {
     rd = new ReverseDiff(rc)
   }
   
-  def apply(x: Array[Double]): Double = FDouble.project(fn.apply[MDouble](injectV(FDouble,x)))
+  def apply(x: Array[Double]): Double = fn.apply[MDouble](injectV(FDouble,x)).project
 
   def gradEval(x:Array[Double]):(Double,Array[Double]) = {
     if(rd==null) {

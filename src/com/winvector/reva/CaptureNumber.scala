@@ -20,7 +20,6 @@ object FCapture extends Field[CaptureNumber] {
   def one = o
   def inject(v:Double) = new CaptureNumber(v)             // constant
   def variable(v:Double,id:Int) = new CaptureNumber(v,id) // variable
-  def project(v:CaptureNumber) = v.v
   override def toString = "FCapture"
   def array(n:Int) = { 
     val a = new Array[CaptureNumber](n)
@@ -188,6 +187,8 @@ class CaptureNumber private (private[reva] val v:Double, private[reva] val isCon
     new CaptureNumber(v / that.v,FCapture.divOp,List(this,that))
   }
   
+  def project = v
+  
   // more complicated
   def pow(p:Double) = {
     if(v<0.0) {
@@ -209,11 +210,10 @@ class CaptureNumber private (private[reva] val v:Double, private[reva] val isCon
     new CaptureNumber(scala.math.log(v),FCapture.logOp,List(this))
   }
   
-  def sq = { this*this }
   def sqrt = { pow(0.5) }
-  def abs = new CaptureNumber(scala.math.abs(v),FCapture.absOp,List(this))
-  def max(o:CaptureNumber) = new CaptureNumber(scala.math.max(v,o.v),FCapture.maxOp,List(this,o))
-  def min(o:CaptureNumber) = new CaptureNumber(scala.math.min(v,o.v),FCapture.minOp,List(this,o))
+  override def abs = new CaptureNumber(scala.math.abs(v),FCapture.absOp,List(this))
+  override def max(o:CaptureNumber) = new CaptureNumber(scala.math.max(v,o.v),FCapture.maxOp,List(this,o))
+  override def min(o:CaptureNumber) = new CaptureNumber(scala.math.min(v,o.v),FCapture.minOp,List(this,o))
   
   // more special fns
   def sin = new CaptureNumber(scala.math.sin(v),FCapture.sinOp,List(this))
@@ -226,16 +226,9 @@ class CaptureNumber private (private[reva] val v:Double, private[reva] val isCon
   def cosh = new CaptureNumber(scala.math.cosh(v),FCapture.coshOp,List(this))
   def tanh = new CaptureNumber(scala.math.tanh(v),FCapture.tanhOp,List(this))
 
-  
-  // comparison functions
-  override def > (that: CaptureNumber) = (v>that.v)
-  override def >= (that: CaptureNumber) = (v>=that.v)
-  override def == (that: CaptureNumber) = (v==that.v)
-  override def != (that: CaptureNumber) = (v!=that.v)
-  override def < (that: CaptureNumber) = (v<that.v)
-  override def <= (that: CaptureNumber) = (v<=that.v)
 
   // utility
+  def self = { this }
   def field:Field[CaptureNumber] = FCapture
   override def toString = "" + v
   

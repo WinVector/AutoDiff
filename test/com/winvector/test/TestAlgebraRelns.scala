@@ -35,7 +35,7 @@ class TestAlgebraRelns extends TestCase {
     assertTrue(field.representationNorm((a/field.one)-a)<epsilon)
     assertTrue(field.representationNorm(a-a)<epsilon)
     assertTrue(field.representationNorm(a+(field.zero-a))<epsilon)
-    if(scala.math.abs(field.project(a))<20) {
+    if(scala.math.abs(a.project)<20) {
       assertTrue(field.representationNorm(a.exp.log-a)<epsilon)
     }
     if(a!=field.zero) {

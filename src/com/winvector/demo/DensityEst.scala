@@ -82,7 +82,7 @@ object DensityEst {
     val wts:Array[Double] = new Array[Double](k)
     var totalWt:Double = 0.0
     for(j <- 0 until k) {
-      wts(j) = FDouble.project(wtFn(FDouble.inject(pF(3*j))))
+      wts(j) = wtFn(FDouble.inject(pF(3*j))).project
       totalWt += wts(j)
     }
     for(j <- 0 until k) {
@@ -107,7 +107,7 @@ object DensityEst {
       params(3*i+2) = 1.0
     }
     val f = densityFN(pts)
-    println("finitial: " + FDouble.project(f(HelperFns.injectV(FDouble,params))))
+    println("finitial: " + f(HelperFns.injectV(FDouble,params)).project)
     //val (pF,fpF) = CG.minimize(new RevDiffQ(f.apply),params)
     val (pF,fpF) = CG.minimize(new FwdDiff(f),params)
     println("ffinal: " + fpF)

@@ -17,7 +17,6 @@ object FDualNumber extends Field[DualNumber] {
   def one = o
   def delta = i
   def inject(v:Double) = new DualNumber(v,0.0)
-  def project(v:DualNumber) = v.std
   def ideal(v:DualNumber) = v.inf
   def array(n:Int) = { 
 	  val a = new Array[DualNumber](n)
@@ -44,6 +43,8 @@ class DualNumber private[implementation] (private [implementation] val std:Doubl
     new DualNumber(std/that.std,(inf*that.std-std*that.inf)/(that.std*that.std))
   }
   
+  def project = std
+  
   // more complicated
   def pow(exp:Double) = {
     if(std<0) {
@@ -68,8 +69,6 @@ class DualNumber private[implementation] (private [implementation] val std:Doubl
     val e = scala.math.exp(std)
     new DualNumber(e,e*inf)
   }
-  def abs = { if(std>=0) this else -this }
-  def sq = { this*this }
   def sqrt = {
     if(std<0) {
       throw new IllegalStateException("Tried to sqrt() negative number")
@@ -77,19 +76,9 @@ class DualNumber private[implementation] (private [implementation] val std:Doubl
     val s = scala.math.sqrt(std)
     new DualNumber(s,inf/(2*s))
   }
-  def max(o:DualNumber) = { if(std>=o.std) this else o }
-  def min(o:DualNumber) = { if(std<=o.std) this else o }
-
-  
-  // comparison functions
-  override def > (that: DualNumber) = (std>that.std)
-  override def >= (that: DualNumber) = (std>=that.std)
-  override def == (that: DualNumber) = (std==that.std)
-  override def != (that: DualNumber) = (std!=that.std)
-  override def < (that: DualNumber) = (std<that.std)
-  override def <= (that: DualNumber) = (std<=that.std)
               
   // utility
+  def self = { this }
   def field:Field[DualNumber] = FDualNumber
   override def toString = "(" + std + "," + inf +")"
   

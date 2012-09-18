@@ -12,7 +12,7 @@ import com.winvector.definition.GFunction
 
 class FwdDiff(fn:VectorFN) extends GFunction {
   
-  def apply(x: Array[Double]): Double = FDouble.project(fn.apply[MDouble](injectV(FDouble,x)))
+  def apply(x: Array[Double]): Double = fn.apply[MDouble](injectV(FDouble,x)).project
   
   def gradEval(x: Array[Double]):(Double,Array[Double]) = { 
     val xdim = x.length
@@ -24,7 +24,7 @@ class FwdDiff(fn:VectorFN) extends GFunction {
       x2(i) = FDualNumber.inject(x(i)) + FDualNumber.delta
       val fplus = fn.apply[DualNumber](x2)
       x2(i) = xorig
-      std = FDualNumber.project(fplus)
+      std = fplus.project
       grad(i) = FDualNumber.ideal(fplus)
     }
     (std,grad)

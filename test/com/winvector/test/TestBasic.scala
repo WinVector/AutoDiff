@@ -22,7 +22,7 @@ import junit.framework.Assert.assertTrue
 class TestBasic extends TestCase {
   
   def checkNear[Y<:NumberBase[Y]](field:Field[Y],a:Double,b:Y):Unit = {
-    assertTrue(scala.math.abs(a-field.project(b))<=1.0e-5)  
+    assertTrue(scala.math.abs(a-b.project)<=1.0e-5)  
   }
   
   // check that number system ops are the same as operating on floating point numbers (so project(a op b) == project(a) op project(b), always or ops commute with projection)
