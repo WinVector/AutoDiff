@@ -64,7 +64,7 @@ object ComputeStrat {
 	 * @param transitions
 	 * @return
 	 */
-	 def solveForStationary[X  <: NumberBase[X], M <: Matrix[X]](transitions:Matrix[X]):Matrix[X] = {
+	 def solveForStationary[X  <: NumberBase[X]](transitions:Matrix[X]):Matrix[X] = {
 	    val factory = transitions.field
         val one = factory.one
 		val n = transitions.rows
@@ -215,7 +215,7 @@ object ComputeStrat {
 		var q:Double = 0.9
 	}
 
-    class Market[X  <: NumberBase[X], M <: Matrix[X]](val factory:Field[X], val params:MarketParams, val strategy:Map[List[MktState],Map[Int,X]]) {
+    class Market[X  <: NumberBase[X]](val factory:Field[X], val params:MarketParams, val strategy:Map[List[MktState],Map[Int,X]]) {
 		var states = Map[DetailedState,Int]()
 
         {
@@ -303,14 +303,14 @@ object ComputeStrat {
 	}
     
 
-    def eval[X  <: NumberBase[X], M <: Matrix[X]](factory:Field[X], params:MarketParams, followProb:X):X = {
+    def eval[X  <: NumberBase[X]](factory:Field[X], params:MarketParams, followProb:X):X = {
 		val strategy = encodeF1Strategy(params.k,followProb)
 		if(verbose) {
 		  println("strategy:")
           println(strategy)
           println()
 		}
-		val market = new Market[X,M](factory,params,strategy)
+		val market = new Market[X](factory,params,strategy)
 
         val transitions = market.computeTransitionMatrix(false,0)
 		if(verbose) {
@@ -318,7 +318,7 @@ object ComputeStrat {
 			println(transitions)
 			println()
 		}
-		val v = solveForStationary[X,M](transitions)
+		val v = solveForStationary[X](transitions)
 		if(verbose) {
 			println("stationary dist:")
 			println(v)
