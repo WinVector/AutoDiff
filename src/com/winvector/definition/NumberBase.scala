@@ -35,7 +35,7 @@ abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
   def project:Double
   // comparison functions
   def nonZero:Boolean = {
-    Math.abs(project)!=0.0
+    scala.math.abs(project)!=0.0
   }
   def > (that: NUMBERTYPE):Boolean = {
     project>that.project

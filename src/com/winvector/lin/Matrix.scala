@@ -33,7 +33,7 @@ object Matrix {
 class Matrix[NUMBERTYPE <: NumberBase[NUMBERTYPE]](val field:Field[NUMBERTYPE], val rows:Int, val columns:Int) {
   require(rows>0);
   require(columns>0);
-  val d = ArrayBuffer.fill[NUMBERTYPE](rows,columns)(field.zero)
+  private val d = ArrayBuffer.fill[NUMBERTYPE](rows,columns)(field.zero)
   
   // get/set
   def get(i:Int,j:Int):NUMBERTYPE = {

@@ -1,5 +1,6 @@
 package com.winvector.lin
 
+import org.scalatest.junit.JUnit3Suite
 import junit.framework.TestCase
 
 import com.winvector.definition.NumberBase
@@ -12,9 +13,9 @@ import junit.framework.Assert.assertTrue
 
 
 
-class TestMat extends TestCase {
+class TestMat extends JUnit3Suite {
 
-   def testMat1:Unit = {
+  def testMat1:Unit = {
         //val m = Matrix(FDouble,Array(Array(3, 2), Array(1, 1)))
         val m = FDouble.injectM(Array(Array(3, 2), Array(1, 1)))
         val inv = m.identity(m.rows)/m
@@ -26,9 +27,9 @@ class TestMat extends TestCase {
         for(i <- 0 until check.rows) {
           for(j <- 0 until check.columns) {
             if(i!=j) {
-              assertTrue(Math.abs(check.get(i,j).project)<1.0e-5)
+              assertTrue(scala.math.abs(check.get(i,j).project)<1.0e-5)
             } else {
-              assertTrue(Math.abs(check.get(i,j).project-1.0)<1.0e-5)
+              assertTrue(scala.math.abs(check.get(i,j).project-1.0)<1.0e-5)
             }
           }
         }
