@@ -149,13 +149,12 @@ class Matrix[NUMBERTYPE <: NumberBase[NUMBERTYPE]](val field:Field[NUMBERTYPE], 
          }
        }
      }
-     // complete diagonalization
+     // back-substitute
      for(jj <- 0 until a.columns) {
        val j = (a.columns - 1) - jj
        if(a.get(j,j).nonZero) {
          for(i <- 0 until j) {
         	 val s = -a.get(i,j)
-        	 a.rowop(j,i,s);
         	 x.rowop(j,i,s);
          }
        }
