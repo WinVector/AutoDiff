@@ -15,7 +15,8 @@ import junit.framework.Assert.assertTrue
 class TestMat extends TestCase {
 
    def testMat1:Unit = {
-        val m = Matrix(FDouble,Array(Array(3, 2), Array(1, 1)))
+        //val m = Matrix(FDouble,Array(Array(3, 2), Array(1, 1)))
+        val m = FDouble.injectM(Array(Array(3, 2), Array(1, 1)))
         val inv = m.identity(m.rows)/m
         assertTrue(inv.rows==m.rows)
         assertTrue(inv.rows==inv.columns)

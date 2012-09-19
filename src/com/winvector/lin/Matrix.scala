@@ -70,6 +70,19 @@ class Matrix[NUMBERTYPE <: NumberBase[NUMBERTYPE]](val field:Field[NUMBERTYPE], 
      p
    }
    
+   def * (that: Array[NUMBERTYPE]):Array[NUMBERTYPE] = {
+     require(columns==that.length)
+     val p = field.array(rows)
+     for(i <- 0 until rows) {
+         var sum = field.zero
+         for(k <- 0 until columns) {
+           sum = sum + get(i,k)*that(k)
+         }
+         p(i) = sum
+     }
+     p
+   }
+   
    /**
     * swap rows a and b
     */
@@ -182,6 +195,9 @@ class Matrix[NUMBERTYPE <: NumberBase[NUMBERTYPE]](val field:Field[NUMBERTYPE], 
     }
     b.toString()
   }
+  
+  
+  // build more matrices of the same type
   
   def inject(v:Array[Array[Double]]):Matrix[NUMBERTYPE] = {
     Matrix(field,v)
