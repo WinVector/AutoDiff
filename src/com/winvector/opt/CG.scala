@@ -10,7 +10,7 @@ import com.winvector.definition.GFunction
 import com.winvector.implementation.HelperFns._
 
 object CG {
-  val debug = false;
+  var debug = false;
 
   // main state
   class CGState(fn:GFunction) {

@@ -22,7 +22,8 @@ import com.winvector.marketchain.ValueChain.MktState
 import com.winvector.marketchain.ValueChain.HiddenState
 
 object ComputeStrat {
-	val verbose = false
+	var verbose = false
+	var printAtAll = true
   
 	def convolute[X <: NumberBase[X]](a:Map[Int,X], b:Map[Int,X]):Map[Int,X]  = {
  		var r = Map[Int,X]()
@@ -369,7 +370,9 @@ object ComputeStrat {
 		if(verbose) {
 			println("strategy value: " + total)
 		} else {
+		  if(printAtAll) {
 			println("" + followProb + "\t" + total)
+		  }
 		}
 		total
     }
@@ -377,9 +380,11 @@ object ComputeStrat {
 
 	def main(args: Array[String]):Unit = {
 		println("hello")
+		verbose = false
+		printAtAll = true
 		val params = new MarketParams()
 		
-		val emf = FDualNumber
+		val emf = FDouble
   
 		val regPattern = 100
   		if(!verbose) {
@@ -392,6 +397,9 @@ object ComputeStrat {
 		}
 		//println("f(" + followProb + ")= " + v)
   
+		
+		println()
+		printAtAll = false
   
         val h = new VectorFN {
            def apply[X <: NumberBase[X]](x:Array[X]):X = {
@@ -403,9 +411,12 @@ object ComputeStrat {
         }
         
         val x0 = Array(1.0)
+        println("x0: " + x0(0))
+        println("f(x0): " + h.apply(x0))
+        CG.debug = true
      	val (xMin2,fX2) = CG.minimize(new FwdDiff(h),x0)
 		println()
-		println("xmin2: " + xMin2)
+		println("xmin2: " + xMin2(0))
 		println("f(xmin2): " + fX2)
 
 		println("all done")
