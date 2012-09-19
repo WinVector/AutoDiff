@@ -34,6 +34,9 @@ abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
   // to standard number
   def project:Double
   // comparison functions
+  def nonZero:Boolean = {
+    Math.abs(project)!=0.0
+  }
   def > (that: NUMBERTYPE):Boolean = {
     project>that.project
   }

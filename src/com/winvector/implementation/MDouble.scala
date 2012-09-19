@@ -72,7 +72,7 @@ class MDouble private[implementation] (private[implementation] val v:Double) ext
   // utility
   def self = { this }
   def field:Field[MDouble] = FDouble
-  override def toString = "" + v
+  override def toString = "%g" format v
   
   // more special fns
   def sin = new MDouble(scala.math.sin(v))

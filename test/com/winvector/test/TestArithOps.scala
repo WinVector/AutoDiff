@@ -29,7 +29,7 @@ import junit.framework.Assert.fail
  *
  */
 class TestArithOps extends TestCase {
-  val unaryOps:Array[String] = Array("abs", "sqrt", "log", "exp", "unary_$minus", /*"sq",*/
+  val unaryOps:Array[String] = Array("abs", "sqrt", "log", "exp", "unary_$minus", "sq",
 		                     "sin", "cos", "tan", "sinh", "cosh",  "tanh", "asin", "acos", "atan")
   val binaryOps:Array[String] = Array(/* "min", "max",*/ "$plus", "$minus", "$times", "$div")
   val paramiterizedOps:Array[String] = Array("pow")

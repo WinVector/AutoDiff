@@ -21,7 +21,7 @@ import junit.framework.Assert.assertTrue
 class TestCG extends TestCase {
 
   
-  def testGC() = {
+  def testGC:Unit = {
     val center:Array[Double] = Array(2.2,-3,3.4,5.0)
     
     val genericFx = new VectorFN {
