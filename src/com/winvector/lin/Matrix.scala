@@ -119,19 +119,19 @@ class Matrix[NUMBERTYPE <: NumberBase[NUMBERTYPE]](val field:Field[NUMBERTYPE], 
 
    
   /**
-   * this.rows==this.columns
-   * b.rows==this.columns
-   * return x s.t. this * x = b
+   * ao.rows==ao.columns
+   * ao.columns==this.rows
+   * return x s.t. ao * x = this
    */
-   def / (b:Matrix[NUMBERTYPE]):Matrix[NUMBERTYPE] = {
-     require(rows==columns)
-     require(columns==b.rows)
+   def / (ao:Matrix[NUMBERTYPE]):Matrix[NUMBERTYPE] = {
+     require(ao.rows==ao.columns)
+     require(rows==ao.columns)
      val x = this.copy
-     val a = b.copy
+     val a = ao.copy
      // upper triangularize a with parallel operations on x
-     for(j <- 0 until columns) {
+     for(j <- 0 until a.columns) {
        var bestI = j
-       for(i <- j+1 until rows) {
+       for(i <- j+1 until a.rows) {
          if(a.get(i,j).abs>a.get(bestI,j).abs) {
            bestI = i
          }
@@ -142,7 +142,7 @@ class Matrix[NUMBERTYPE <: NumberBase[NUMBERTYPE]](val field:Field[NUMBERTYPE], 
          val us = field.one/a.get(j,j)
          a.rowscale(j,us)
          x.rowscale(j,us)
-         for(i <- j+1 until rows) {
+         for(i <- j+1 until a.rows) {
         	 val s = -a.get(i,j)
         	 a.rowop(j,i,s);
         	 x.rowop(j,i,s);
@@ -150,8 +150,8 @@ class Matrix[NUMBERTYPE <: NumberBase[NUMBERTYPE]](val field:Field[NUMBERTYPE], 
        }
      }
      // complete diagonalization
-     for(jj <- 0 until columns) {
-       val j = (columns - 1) - jj
+     for(jj <- 0 until a.columns) {
+       val j = (a.columns - 1) - jj
        if(a.get(j,j).nonZero) {
          for(i <- 0 until j) {
         	 val s = -a.get(i,j)
@@ -163,6 +163,19 @@ class Matrix[NUMBERTYPE <: NumberBase[NUMBERTYPE]](val field:Field[NUMBERTYPE], 
      x
    }
 
+  def solve(b:Array[NUMBERTYPE]):Array[NUMBERTYPE] = {
+    val n = b.length
+    val bm = zero(n,1)
+    for(i <- 0 until n) {
+      bm.set(i,0,b(i))
+    }
+    val soln = bm/this
+    val r = field.array(n)
+    for(i <- 0 until n) {
+    	r(i) = soln.get(i,0)
+    }
+    r
+  }
   
   // print
   override def toString() = {
