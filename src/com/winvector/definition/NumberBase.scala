@@ -13,7 +13,6 @@ abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
   // basic arithmetic
   def + (that: NUMBERTYPE):NUMBERTYPE
   def - (that: NUMBERTYPE):NUMBERTYPE
-  def unary_-():NUMBERTYPE 
   def * (that: NUMBERTYPE):NUMBERTYPE
   def / (that: NUMBERTYPE):NUMBERTYPE  // that not equal to zero
   // more complicated
@@ -58,6 +57,12 @@ abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
   // utility
   def field:Field[NUMBERTYPE]
   // derived
+  def neg:NUMBERTYPE = {
+    field.zero - self
+  }
+  def unary_-():NUMBERTYPE = {
+    field.zero - self
+  } 
   def sq:NUMBERTYPE = { 
     val e = self
     e*e
@@ -70,7 +75,7 @@ abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
     if(project>=0.0) {
       self
     } else {
-      -self
+      field.zero - self
     }
   }
   def max(that: NUMBERTYPE):NUMBERTYPE = {

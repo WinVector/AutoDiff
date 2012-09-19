@@ -178,7 +178,7 @@ class CaptureNumber private (private[reva] val v:Double, private[reva] val isCon
   // basic arithmetic
   def + (that: CaptureNumber) = new CaptureNumber(v + that.v,FCapture.plusOp,List(this,that))
   def - (that: CaptureNumber) = new CaptureNumber(v - that.v,FCapture.minusOp,List(this,that))
-  def unary_- = new CaptureNumber(-v,FCapture.negOp,List(this)) 
+  override def unary_- = new CaptureNumber(-v,FCapture.negOp,List(this)) 
   def * (that: CaptureNumber) = new CaptureNumber(v * that.v,FCapture.timesOp,List(this,that))
   def / (that: CaptureNumber) = {
     if(that.v==0.0) {

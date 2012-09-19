@@ -34,7 +34,6 @@ class DualNumber private[implementation] (private [implementation] val std:Doubl
   // basic arithmetic
   def + (that: DualNumber) = new DualNumber(std + that.std,inf + that.inf)
   def - (that: DualNumber) = new DualNumber(std - that.std,inf - that.inf)
-  def unary_- = new DualNumber(-std,-inf) 
   def * (that: DualNumber) = new DualNumber(std * that.std,std * that.inf + inf * that.std)
   def / (that: DualNumber) = {
     if(that.std==0.0) {

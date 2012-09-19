@@ -36,7 +36,6 @@ class MDouble private[implementation] (private[implementation] val v:Double) ext
   // basic arithmetic
   def + (that: MDouble) = new MDouble(v + that.v)
   def - (that: MDouble) = new MDouble(v - that.v)
-  def unary_- = new MDouble(-v) 
   def * (that: MDouble) = new MDouble(v * that.v)
   def / (that: MDouble) = {
     if(that.v==0.0) {

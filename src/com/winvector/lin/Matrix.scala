@@ -208,6 +208,15 @@ class Matrix[NUMBERTYPE <: NumberBase[NUMBERTYPE]](val field:Field[NUMBERTYPE], 
     b.toString()
   }
   
+  def transpose:Matrix[NUMBERTYPE] = {
+    val t = Matrix.zero(field,columns,rows)
+    for(i <- 0 until rows) {
+      for(j <- 0 until columns) {
+        t.set(j,i,get(i,j))
+      }
+    }
+    t
+  }
   
   // build more matrices of the same type
   
