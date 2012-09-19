@@ -1,6 +1,6 @@
 package com.winvector.lin
 
-import org.scalatest.junit.JUnit3Suite
+import org.scalatest.junit.JUnitSuite
 import junit.framework.TestCase
 
 import com.winvector.definition.NumberBase
@@ -13,7 +13,7 @@ import junit.framework.Assert.assertTrue
 
 
 
-class TestMat extends JUnit3Suite {
+class TestMat extends JUnitSuite {
 
   def testMat1:Unit = {
         //val m = Matrix(FDouble,Array(Array(3, 2), Array(1, 1)))
