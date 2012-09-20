@@ -93,6 +93,8 @@ object MatExample {
     //val p0:Array[Double] = Array(1.0,2.0,3.0,1.0,-1.0,-1.0,1.0,0.0,2.5,1.0,1.0,1.0,1.0,-1.0,0.5)
     val rand = new Random(25253262L);
     val n:Int = stride*20
+    
+    for(rep <- 0 until 10) {
     val p0 = new Array[Double](n)
     print("p0:")
     for(i <- 0 until n) {
@@ -119,6 +121,7 @@ object MatExample {
     print("ideal rev gradient:\t")
     printPD((new RevDiff(genericFx)).gradEval(pF))
     println()
+    }
     println("done")
   }
 
