@@ -50,14 +50,12 @@ object MatExample {
         val m = p.length
         val a = field.matrix(stride,stride)
         val b = field.array(stride)
-        var wtTot = field.zero
+        val epsilon = field.inject(1.0e-3)
+        var nullP = field.zero
+        var wTot = field.zero
         for(s <- 0 until m/stride) {
           val ws = p(stride*s).sq + field.one
-          wtTot = wtTot + ws
-        }
-        var nullP = field.zero
-        for(s <- 0 until m/stride) {
-          val ws = (p(stride*s).sq + field.one)/wtTot
+          wTot = wTot + ws
           val ys = if((s&1)==0) field.one else field.zero 
           nullP = nullP + ws*logHalf
           for(i <- 0 until stride) {
@@ -72,7 +70,7 @@ object MatExample {
         val x = a.solve(b)
         var oneP = field.zero
         for(s <- 0 until m/stride) {
-          val ws = (p(stride*s).sq + field.one)/wtTot
+          val ws = p(stride*s).sq + field.one
           val ys = (s&1)==0
           var dot = field.zero
           for(i <- 0 until stride) {
@@ -86,7 +84,7 @@ object MatExample {
             oneP = oneP + ws*((field.one-prob).log)
           }
         }
-        nullP/oneP // minimize this
+        nullP/oneP + epsilon*wTot // minimize this
       }
     }
     
