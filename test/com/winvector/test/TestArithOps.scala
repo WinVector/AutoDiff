@@ -27,7 +27,7 @@ import com.winvector.implementation.StandardOperations
  * This set of tests performs operations on both MDoubles (our reference implementation) and the test types to see they get equivalent results
  * @author johnmount
  * 
- * TODO: get unary test op in
+ * TODO: (check if this obsoletes TestDiff or at least if TestDiff should move up to using StandardOperations)
  *
  */
 class TestArithOps extends AssertionsForJUnit {
@@ -151,6 +151,32 @@ class TestArithOps extends AssertionsForJUnit {
     }
   }
   
+  def testTestOp[Y<:NumberBase[Y]](a:Double,av:Y,field:Field[Y],op:String):Unit = {
+    val method = StandardOperations.tests(op)
+    require(method.dim==1)
+    var refResult:Boolean = false
+    var testResult:Boolean = false
+    try {
+      val ar = FDouble.array(1)
+      ar(0) = FDouble.inject(a)
+      refResult = method.apply(ar)
+    } catch {
+      case ex:Exception =>
+    }
+    try {
+      val ar = field.array(1)
+      ar(0) = av
+      testResult = method.apply(ar)
+    } catch {
+      case ex:Exception =>
+    }
+    if(refResult!=testResult) {
+      println(field.toString + "\top:\t" + op + "\t" + a)
+      println("\treference:\t" + "\t" + refResult)
+      println("\ttest:\t" + "\t" + testResult)
+      fail
+    }
+  }
   
   def testOps[Y<:NumberBase[Y]](field:Field[Y],zeroEquiv:Array[Y]):Unit = {
     val base:Array[Double] = Array(1.3,4.5,-2,0,6.0,0.0,1.0,-1.0,2,-1.3,-6,-4.5,10,20,100,-100,1.0e-3,-1.0e-3,0.1,-0.1,1e+3,-1e+3)
@@ -161,6 +187,11 @@ class TestArithOps extends AssertionsForJUnit {
           if(meth.dim==1) {
             testUnaryOp(a,av,field,op)
           }
+        }
+        for((op,meth) <- StandardOperations.tests) {
+           if(meth.dim==1) {
+              testTestOp(a,av,field,op)
+           }
         }
         for(b <- base) {
           for((op,meth) <- StandardOperations.paramOps) {
