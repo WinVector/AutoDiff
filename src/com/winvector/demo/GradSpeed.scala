@@ -72,16 +72,19 @@ object GradSpeed {
     }
   }
 
-  val partialLengthFN = new SummableFN {
-    def apply[Y<:NumberBase[Y]](p:Array[Y],dk:Array[Y]):Y = {
-      val field = p(0).field
-      val dim = p.length
-      var term = field.zero
-      for(i <- 0 until dim) {
-        val diff = p(i) - dk(i)
-        term = term + diff*diff 
+  def partialLengthFN(pdim:Int):SummableFN = {
+    new SummableFN {
+      def dim = { pdim }
+      def apply[Y<:NumberBase[Y]](p:Array[Y],dk:Array[Y]):Y = {
+        val field = p(0).field
+        val dim = p.length
+        var term = field.zero
+        for(i <- 0 until dim) {
+          val diff = p(i) - dk(i)
+          term = term + diff*diff 
+        }
+        smoothSQRT(term)
       }
-      smoothSQRT(term)
     }
   }
 
@@ -110,7 +113,7 @@ object GradSpeed {
         // set up data-driven generic fns
         val genericFx = lengthFN(dat)
         val gNum = new NumDiff(lengthFD(dat))
-        val gRSum = RevDiffS.convertToGFunction(partialLengthFN,dat)
+        val gRSum = RevDiffS.convertToGFunction(partialLengthFN(dat(0).length),dat)
 
         var gFwd:GFunction = null
         var gRev:GFunction = null

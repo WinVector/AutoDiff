@@ -359,7 +359,7 @@ class TestDiff extends AssertionsForJUnit {
     val genericFx = GradSpeed.lengthFN(dat)
     val gFwd = new FwdDiff(genericFx)
     val gRev = new RevDiffQ(genericFx)
-    val gRSum = RevDiffS.convertToGFunction(GradSpeed.partialLengthFN,dat)
+    val gRSum = RevDiffS.convertToGFunction(GradSpeed.partialLengthFN(dat(0).length),dat)
 
     // check
     val fe = gFwd.apply(p0)

@@ -8,5 +8,6 @@ package com.winvector.definition
 
 // not really the Scala Function1 triat (due to extra free type parameters) but imitating the form for later use
 abstract trait SummableFN {
+  def dim
   def apply[Y<:NumberBase[Y]](parameterArg:Array[Y],varyingArg:Array[Y]):Y
 }
