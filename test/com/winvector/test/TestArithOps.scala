@@ -7,7 +7,7 @@ package com.winvector.test
  */
 
 
-import org.scalatest.junit.AssertionsForJUnit
+import org.scalatest.junit.JUnitSuite
 import org.junit.Assert._
 import org.junit.Test
 
@@ -30,7 +30,7 @@ import com.winvector.implementation.StandardOperations
  * TODO: (check if this obsoletes TestDiff or at least if TestDiff should move up to using StandardOperations)
  *
  */
-class TestArithOps extends AssertionsForJUnit {
+class TestArithOps extends JUnitSuite {
   
   def equiv(a:Double,b:Double):Boolean = {
     val aWacky = (a.isNaN)||(a.isInfinite)

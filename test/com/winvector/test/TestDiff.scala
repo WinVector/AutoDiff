@@ -9,7 +9,7 @@ package com.winvector.test
 
 import java.util.Random
 
-import org.scalatest.junit.AssertionsForJUnit
+import org.scalatest.junit.JUnitSuite
 import org.junit.Assert._
 import org.junit.Test
 
@@ -30,7 +30,7 @@ import com.winvector.reva.RevDiffS
 
 
 
-class TestDiff extends AssertionsForJUnit {
+class TestDiff extends JUnitSuite {
   
   // a is reference truth
   def equiv(a:Double,b:Double):Boolean = {

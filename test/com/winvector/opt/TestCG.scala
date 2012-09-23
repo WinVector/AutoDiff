@@ -8,7 +8,7 @@ package com.winvector.opt
 
 
 
-import org.scalatest.junit.AssertionsForJUnit
+import org.scalatest.junit.JUnitSuite
 import org.junit.Assert._
 import org.junit.Test
 
@@ -20,7 +20,7 @@ import com.winvector.implementation.FwdDiff
 
 
 
-class TestCG extends AssertionsForJUnit {
+class TestCG extends JUnitSuite {
 
   
   @Test def testGC:Unit = {

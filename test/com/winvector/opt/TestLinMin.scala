@@ -7,7 +7,7 @@ package com.winvector.opt
  */
 
 
-import org.scalatest.junit.AssertionsForJUnit
+import org.scalatest.junit.JUnitSuite
 import org.junit.Assert._
 import org.junit.Test
 
@@ -17,7 +17,7 @@ import com.winvector.implementation.FwdDiff
 
 
 
-class TestLinMin extends AssertionsForJUnit {
+class TestLinMin extends JUnitSuite {
   
   
   @Test def testParabola:Unit = {

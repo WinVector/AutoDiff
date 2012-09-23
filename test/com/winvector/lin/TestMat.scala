@@ -1,6 +1,6 @@
 package com.winvector.lin
 
-import org.scalatest.junit.AssertionsForJUnit
+import org.scalatest.junit.JUnitSuite
 import org.junit.Assert._
 import org.junit.Test
 
@@ -13,7 +13,7 @@ import com.winvector.implementation.FDouble
 
 
 
-class TestMat extends AssertionsForJUnit {
+class TestMat extends JUnitSuite {
 
   @Test def testMat1:Unit = {
         //val m = Matrix(FDouble,Array(Array(3, 2), Array(1, 1)))

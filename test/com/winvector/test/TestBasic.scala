@@ -7,7 +7,7 @@ package com.winvector.test
  */
 
 
-import org.scalatest.junit.AssertionsForJUnit
+import org.scalatest.junit.JUnitSuite
 import org.junit.Assert._
 import org.junit.Test
 
@@ -19,7 +19,7 @@ import com.winvector.reva.FCapture
 
 
 
-class TestBasic extends AssertionsForJUnit {
+class TestBasic extends JUnitSuite {
   
   def checkNear[Y<:NumberBase[Y]](field:Field[Y],a:Double,b:Y):Unit = {
     assertTrue(scala.math.abs(a-b.project)<=1.0e-5)  

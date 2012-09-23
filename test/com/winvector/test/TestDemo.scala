@@ -7,7 +7,7 @@ package com.winvector.test
  */
 
 
-import org.scalatest.junit.AssertionsForJUnit
+import org.scalatest.junit.JUnitSuite
 import org.junit.Assert._
 import org.junit.Test
 
@@ -21,7 +21,7 @@ import com.winvector.reva.RevDiff
 
 
 
-class TestDemo extends AssertionsForJUnit {
+class TestDemo extends JUnitSuite {
   
   
   @Test def testDemo:Unit = {
