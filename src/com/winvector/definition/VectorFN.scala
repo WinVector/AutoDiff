@@ -11,6 +11,7 @@ import com.winvector.implementation.FDouble
 
 // not really the Scala Function1 trait (due to extra free type parameters) but imitating the form for later use
 abstract trait VectorFN {
+  def dim:Int
   def apply[Y<:NumberBase[Y]](x:Array[Y]):Y
   
   /**

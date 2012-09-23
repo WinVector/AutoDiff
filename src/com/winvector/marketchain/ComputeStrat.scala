@@ -402,6 +402,7 @@ object ComputeStrat {
 		printAtAll = false
   
         val h = new VectorFN {
+		   def dim = 1
            def apply[X <: NumberBase[X]](x:Array[X]):X = {
 			  val x0 = x(0)
 			  val factory = x0.field

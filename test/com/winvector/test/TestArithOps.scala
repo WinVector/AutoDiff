@@ -19,6 +19,7 @@ import com.winvector.implementation.FDualNumber
 import com.winvector.implementation.MDouble
 import com.winvector.reva.CaptureNumber
 import com.winvector.reva.FCapture
+import com.winvector.implementation.StandardOperations
 
 
 
@@ -26,16 +27,10 @@ import com.winvector.reva.FCapture
  * This set of tests performs operations on both MDoubles (our reference implementation) and the test types to see they get equivalent results
  * @author johnmount
  * 
- * TODO: get away from Java reflection for driving this test, as it does not work for methods in the base class
- * TODO: put back suppressed ops and add in new ops (sigmoid)
+ * TODO: get unary test op in
  *
  */
 class TestArithOps extends AssertionsForJUnit {
-  val unaryOps:Array[String] = Array("abs", "sqrt", "log", "exp", "unary_$minus", "sq",
-		                     "sin", "cos", "tan", "sinh", "cosh",  "tanh", "asin", "acos", "atan")
-  val binaryOps:Array[String] = Array(/* "min", "max",*/ "$plus", "$minus", "$times", "$div")
-  val paramiterizedOps:Array[String] = Array("pow")
-  val comparisonOps:Array[String] = Array(/*"$greater", "$greater$eq", "$eq$eq", "$bang$eq", "$less", "$less$eq"*/)
   
   def equiv(a:Double,b:Double):Boolean = {
     val aWacky = (a.isNaN)||(a.isInfinite)
@@ -48,19 +43,21 @@ class TestArithOps extends AssertionsForJUnit {
   }
 
   def testUnaryOp[Y<:NumberBase[Y]](a:Double,av:Y,field:Field[Y],op:String):Unit = {
-    val refClass = FDouble.zero.getClass
-    val testClass = field.zero.getClass
-    val refMethod = refClass.getMethod(op)
-    val testMethod = testClass.getMethod(op)
+    val method = StandardOperations.fns(op)
+    require(method.dim==1)
     var refResult:Double = Double.NaN
     var testResult:Double = Double.NaN
     try {
-      refResult = refMethod.invoke(FDouble.inject(a)).asInstanceOf[MDouble].project
+      val ar = FDouble.array(1)
+      ar(0) = FDouble.inject(a)
+      refResult = method.apply(ar).project
     } catch {
       case ex:Exception =>
     }
     try {
-      testResult = testMethod.invoke(av).asInstanceOf[Y].project
+      val ar = field.array(1)
+      ar(0) = av
+      testResult = method.apply(ar).project
     } catch {
       case ex:Exception =>
     }
@@ -71,21 +68,26 @@ class TestArithOps extends AssertionsForJUnit {
       fail
     }
   }
-
+  
+ 
   def testBinaryOp[Y<:NumberBase[Y]](a:Double,b:Double,av:Y,bv:Y,field:Field[Y],op:String):Unit = {
-    val refClass = FDouble.zero.getClass
-    val testClass = field.zero.getClass
-    val refMethod = refClass.getMethod(op,refClass)
-    val testMethod = testClass.getMethod(op,testClass)
+    val method = StandardOperations.fns(op)
+    require(method.dim==2)
     var refResult:Double = Double.NaN
     var testResult:Double = Double.NaN
     try {
-      refResult = refMethod.invoke(FDouble.inject(a),FDouble.inject(b)).asInstanceOf[MDouble].project
+      val ar = FDouble.array(2)
+      ar(0) = FDouble.inject(a)
+      ar(1) = FDouble.inject(b)
+      refResult = method.apply(ar).project
     } catch {
       case ex:Exception =>
     }
     try {
-      testResult = testMethod.invoke(av,bv).asInstanceOf[Y].project
+      val ar = field.array(2)
+      ar(0) = av
+      ar(1) = bv
+      testResult = method.apply(ar).project
     } catch {
       case ex:Exception =>
     }
@@ -98,19 +100,16 @@ class TestArithOps extends AssertionsForJUnit {
   }
   
   def testParamiterizedOp[Y<:NumberBase[Y]](a:Double,b:Double,av:Y,field:Field[Y],op:String):Unit = {
-    val refClass = FDouble.zero.getClass
-    val testClass = field.zero.getClass
-    val refMethod = refClass.getMethod(op,java.lang.Double.TYPE)
-    val testMethod = testClass.getMethod(op,java.lang.Double.TYPE)
+    val method = StandardOperations.paramOps(op)
     var refResult:Double = Double.NaN
     var testResult:Double = Double.NaN
     try {
-      refResult = refMethod.invoke(FDouble.inject(a),new java.lang.Double(b)).asInstanceOf[MDouble].project
+      refResult = method.apply(FDouble.inject(a),b).project 
     } catch {
       case ex:Exception =>
     }
     try {
-      testResult = testMethod.invoke(av,new java.lang.Double(b)).asInstanceOf[Y].project
+      testResult = method.apply(av,b).project
     } catch {
       case ex:Exception =>
     }
@@ -124,12 +123,26 @@ class TestArithOps extends AssertionsForJUnit {
   
   
   def testComparionOp[Y<:NumberBase[Y]](a:Double,b:Double,av:Y,bv:Y,field:Field[Y],op:String):Unit = {
-    val refClass = FDouble.zero.getClass
-    val testClass = field.zero.getClass
-    val refMethod = refClass.getMethod(op,refClass)
-    val testMethod = testClass.getMethod(op,testClass)
-    var refResult:Boolean = refMethod.invoke(FDouble.inject(a),FDouble.inject(b)).asInstanceOf[Boolean]
-    var testResult:Boolean = testMethod.invoke(av,bv).asInstanceOf[Boolean]
+    val method = StandardOperations.tests(op)
+    require(method.dim==2)
+    var refResult:Boolean = false
+    var testResult:Boolean = false
+    try {
+      val ar = FDouble.array(2)
+      ar(0) = FDouble.inject(a)
+      ar(1) = FDouble.inject(b)
+      refResult = method.apply(ar)
+    } catch {
+      case ex:Exception =>
+    }
+    try {
+      val ar = field.array(2)
+      ar(0) = av
+      ar(1) = bv
+      testResult = method.apply(ar)
+    } catch {
+      case ex:Exception =>
+    }
     if(refResult!=testResult) {
       println(field.toString + "\top:\t" + op + "\t" + a + "\t" + b)
       println("\treference:\t" + "\t" + refResult)
@@ -144,20 +157,26 @@ class TestArithOps extends AssertionsForJUnit {
     for(a <- base ) {
       for(za <- zeroEquiv) {
         val av = field.inject(a) + za
-        for(op <- unaryOps) {
-          testUnaryOp(a,av,field,op)
+        for((op,meth) <- StandardOperations.fns) {
+          if(meth.dim==1) {
+            testUnaryOp(a,av,field,op)
+          }
         }
         for(b <- base) {
-          for(op <- paramiterizedOps) {
+          for((op,meth) <- StandardOperations.paramOps) {
             testParamiterizedOp(a,b,av,field,op)
           }
           for(zb <- zeroEquiv) {
             val bv = field.inject(b) + zb
-            for(op <- binaryOps) {
-              testBinaryOp(a,b,av,bv,field,op)
+            for((op,meth) <- StandardOperations.fns) {
+               if(meth.dim==2) {
+                  testBinaryOp(a,b,av,bv,field,op)
+               }
             }
-            for(op <- comparisonOps) {
-              testComparionOp(a,b,av,bv,field,op)
+            for((op,meth) <- StandardOperations.tests) {
+               if(meth.dim==2) {
+                  testComparionOp(a,b,av,bv,field,op)
+               }
             }
           }
         }

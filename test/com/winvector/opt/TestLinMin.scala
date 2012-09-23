@@ -40,6 +40,7 @@ class TestLinMin extends AssertionsForJUnit {
     val center:Double = 7.2
     
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         val x = p(0)
         val field = x.field

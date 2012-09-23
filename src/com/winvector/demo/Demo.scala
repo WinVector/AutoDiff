@@ -50,8 +50,11 @@ object Demo {
       (x+tau).pow(0.5)
     }
     
-    
+
+    val p0:Array[Double] = mean(dat)
+
     val genericFx = new VectorFN {
+      def dim = { p0.length }
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         val field = p(0).field
         val dim = p.length
@@ -70,7 +73,6 @@ object Demo {
     }
     
     
-    val p0:Array[Double] = mean(dat)
 
     println("points:")
     printM(dat)

@@ -38,10 +38,12 @@ object MatExample {
     println("recovsolve: " + va(0) + " " + va(1))
     
     val stride:Int = 3
+    val n:Int = stride*20
     
     // implements the first Newton step of solving a logistic regression starting at zero
     // on data of dim-stride (including the first dimension set to 1 and weights of the form w*w + 1)
     val genericFx = new VectorFN {
+      def dim = n
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         val field = p(0).field
         val oneFourth = field.inject(0.25)
@@ -90,7 +92,7 @@ object MatExample {
     
     //val p0:Array[Double] = Array(1.0,2.0,3.0,1.0,-1.0,-1.0,1.0,0.0,2.5,1.0,1.0,1.0,1.0,-1.0,0.5)
     val rand = new Random(25253262L);
-    val n:Int = stride*20
+
     
     for(rep <- 0 until 10) {
     val p0 = new Array[Double](n)

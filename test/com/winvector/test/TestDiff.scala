@@ -92,6 +92,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFPlus:Unit = {
     val genericFx = new VectorFN {
+      def dim = 2
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0) + p(1)
       }
@@ -103,6 +104,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFMinus:Unit = {
     val genericFx = new VectorFN {
+      def dim = 2
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0) - p(1)
       }
@@ -114,6 +116,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFNeg:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         -p(0)
       }
@@ -125,6 +128,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFTimes:Unit = {
     val genericFx = new VectorFN {
+      def dim = 2
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0) * p(1)
       }
@@ -136,6 +140,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFDiv:Unit = {
     val genericFx = new VectorFN {
+      def dim = 2
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0) / p(1)
       }
@@ -147,6 +152,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFExp:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).exp
       }
@@ -158,6 +164,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFLog:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).log
       }
@@ -169,6 +176,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFSq:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).sq
       }
@@ -180,6 +188,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFSqrt:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).sqrt
       }
@@ -191,6 +200,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFAbs:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).abs
       }
@@ -202,6 +212,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFMax:Unit = {
     val genericFx = new VectorFN {
+      def dim = 2
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).max(p(1))
       }
@@ -213,6 +224,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFMin:Unit = {
     val genericFx = new VectorFN {
+      def dim = 2
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).min(p(1))
       }
@@ -224,6 +236,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFSin:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).sin
       }
@@ -235,6 +248,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFCos:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).cos
       }
@@ -246,6 +260,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFTan:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).tan
       }
@@ -257,6 +272,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFASin:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).asin
       }
@@ -268,6 +284,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFACos:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).acos
       }
@@ -279,6 +296,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFAtan:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).atan
       }
@@ -290,6 +308,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFSinh:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).sinh
       }
@@ -301,6 +320,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFCosh:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).cosh
       }
@@ -312,6 +332,7 @@ class TestDiff extends AssertionsForJUnit {
   
   @Test def testFTanh:Unit = {
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).tanh
       }

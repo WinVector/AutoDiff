@@ -100,6 +100,8 @@ object SVM {
       q
     }
 
+    def dim = { daty.length }
+    
     def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
       val field = p(0).field
       val npoint = datx.length
@@ -389,6 +391,7 @@ object SVM {
         num/den
       }
       
+      def dim = {datx(0).length}
       // return loss over training given parameters (varyingArg is the point we are evaluating, last coordinate is ground truth)
       def apply[Y<:NumberBase[Y]](parameterArg:Array[Y]):Y = {
         val field = parameterArg(0).field

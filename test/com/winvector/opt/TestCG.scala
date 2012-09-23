@@ -27,6 +27,7 @@ class TestCG extends AssertionsForJUnit {
     val center:Array[Double] = Array(2.2,-3,3.4,5.0)
     
     val genericFx = new VectorFN {
+      def dim = center.length
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         val dim = center.length
         val field = p(0).field

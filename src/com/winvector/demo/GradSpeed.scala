@@ -53,6 +53,7 @@ object GradSpeed {
   
   def lengthFN(dat:Array[Array[Double]]):VectorFN = {
     new VectorFN {
+      def dim = { dat(0).length }
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         val field = p(0).field
         val dim = p.length

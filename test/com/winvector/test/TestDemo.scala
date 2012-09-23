@@ -38,6 +38,7 @@ class TestDemo extends AssertionsForJUnit {
     }
     
     val genericFx = new VectorFN {
+      def dim = 1
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         val field = p(0).field
         val dim = p.length

@@ -22,6 +22,7 @@ import com.winvector.reva.RevDiffQ
 object Print {
   def main(args : Array[String]) : Unit = {
     val genericFx = new VectorFN {
+      def dim = 3
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         (p(0).sin - p(1).tan).sq/p(2)
       }

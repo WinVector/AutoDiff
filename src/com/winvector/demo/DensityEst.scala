@@ -40,6 +40,7 @@ object DensityEst {
   
   def densityFN(pts:Array[Double]):VectorFN = {
     new VectorFN {
+      def dim = { 3*pts.length }
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         val field = p(0).field
         var penalty = field.zero
