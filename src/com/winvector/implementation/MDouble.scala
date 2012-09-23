@@ -14,12 +14,18 @@ import com.winvector.definition.Field
  * @author johnmount
  *
  */
-object FDouble extends Field[MDouble] {
+final object FDouble extends Field[MDouble] {
   private val z = new MDouble(0.0)
   private val o = new MDouble(1.0)
   def zero= z
   def one = o
-  def inject(v:Double) = new MDouble(v)
+  def inject(v:Double) = {
+    v match {
+      case 0.0 => z
+      case 1.0 => o
+      case _ => new MDouble(v)
+    }
+  }
   override def toString = "FDouble"
   def array(n:Int) = { 
 	  val a = new Array[MDouble](n)
@@ -32,7 +38,7 @@ object FDouble extends Field[MDouble] {
 }
 
 
-class MDouble private[implementation] (private[implementation] val v:Double) extends NumberBase[MDouble] {    
+final class MDouble private[implementation] (private[implementation] val v:Double) extends NumberBase[MDouble] {    
   // basic arithmetic
   def + (that: MDouble) = new MDouble(v + that.v)
   def - (that: MDouble) = new MDouble(v - that.v)
@@ -47,14 +53,14 @@ class MDouble private[implementation] (private[implementation] val v:Double) ext
   def project = v
 
   // more complicated
-  def pow(exp:Double) = {
+  def pow(pw:Double) = {
     if(v<0.0) {
       throw new IllegalStateException("Tried to pow() negative number")
     }
-    if(exp==0.0) {
+    if(pw==0.0) {
       FDouble.one
     } else {
-      new MDouble(scala.math.pow(v,exp))
+      new MDouble(scala.math.pow(v,pw))
     }
   }
   

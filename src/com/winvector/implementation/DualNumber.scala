@@ -9,14 +9,20 @@ package com.winvector.implementation
 import com.winvector.definition.NumberBase
 import com.winvector.definition.Field
 
-object FDualNumber extends Field[DualNumber] {
+final object FDualNumber extends Field[DualNumber] {
   private val z = new DualNumber(0.0,0.0)
   private val o = new DualNumber(1.0,0.0)
   private val i = new DualNumber(0.0,1.0)
   def zero = z
   def one = o
   def delta = i
-  def inject(v:Double) = new DualNumber(v,0.0)
+  def inject(v:Double) = { 
+    v match {
+      case 0.0 => z
+      case 1.0 => o
+      case _ => new DualNumber(v,0.0)
+    }
+  }
   def ideal(v:DualNumber) = v.inf
   def array(n:Int) = { 
 	  val a = new Array[DualNumber](n)
@@ -30,7 +36,7 @@ object FDualNumber extends Field[DualNumber] {
 }
 
 
-class DualNumber private[implementation] (private [implementation] val std:Double, private [implementation] val inf:Double) extends NumberBase[DualNumber] {
+final class DualNumber private[implementation] (private [implementation] val std:Double, private [implementation] val inf:Double) extends NumberBase[DualNumber] {
   // basic arithmetic
   def + (that: DualNumber) = new DualNumber(std + that.std,inf + that.inf)
   def - (that: DualNumber) = new DualNumber(std - that.std,inf - that.inf)
@@ -45,15 +51,15 @@ class DualNumber private[implementation] (private [implementation] val std:Doubl
   def project = std
   
   // more complicated
-  def pow(exp:Double) = {
+  def pow(pw:Double) = {
     if(std<0) {
       throw new IllegalStateException("Tried to pow() negative number")
     }
-    if(exp==0.0) {
+    if(pw==0.0) {
       FDualNumber.one
     } else { 
-      val p = scala.math.pow(std,exp) 
-      new DualNumber(p,exp*p*inf/std)
+      val p = scala.math.pow(std,pw) 
+      new DualNumber(p,pw*p*inf/std)
     }
   }
   

@@ -30,5 +30,5 @@ abstract class Field [NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
   def injectM(v:Array[Array[Double]]):Matrix[NUMBERTYPE] = {
     Matrix[NUMBERTYPE](this,v)
   }
-  def representationNorm(v:NUMBERTYPE):Double // check distance in representation from standard zero 
+  def representationNorm(v:NUMBERTYPE):Double // check distance in representation from standard zero, use for testing DualNumber
 }

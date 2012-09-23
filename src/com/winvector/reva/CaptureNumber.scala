@@ -12,13 +12,19 @@ import com.winvector.definition.NumberBase
 import com.winvector.definition.Field
 
 // implementation class
-object FCapture extends Field[CaptureNumber] {
+final object FCapture extends Field[CaptureNumber] {
   val idSource = new IDSource()
   private val z = new CaptureNumber(0.0)
   private val o = new CaptureNumber(1.0)
   def zero = z
   def one = o
-  def inject(v:Double) = new CaptureNumber(v)             // constant
+  def inject(v:Double) = {  // constant 
+    v match {
+      case 0.0 => z
+      case 1.0 => o
+      case _ => new CaptureNumber(v)
+    }
+  }
   def variable(v:Double,id:Int) = new CaptureNumber(v,id) // variable
   override def toString = "FCapture"
   def array(n:Int) = { 
@@ -171,7 +177,7 @@ object FCapture extends Field[CaptureNumber] {
 }
 
 
-class CaptureNumber private (private[reva] val v:Double, private[reva] val isConst:Boolean, private[reva] val op:FCapture.Op, private[reva] val inputs:List[CaptureNumber], private[reva] val nodeId:Int, private[reva] val externalId:Int) extends NumberBase[CaptureNumber] {
+final class CaptureNumber private (private[reva] val v:Double, private[reva] val isConst:Boolean, private[reva] val op:FCapture.Op, private[reva] val inputs:List[CaptureNumber], private[reva] val nodeId:Int, private[reva] val externalId:Int) extends NumberBase[CaptureNumber] {
   private[reva] def this(v:Double) = this(v,true,null,null,FCapture.idSource.nextID,-1)                                        // constant
   private[reva] def this(v:Double,externalID:Int) = this(v,false,null,null,FCapture.idSource.nextID,externalID)                // variable
   private def this(v:Double,op:FCapture.Op,inputs:List[CaptureNumber]) = this(v,FCapture.constRes(inputs),op,inputs,FCapture.idSource.nextID,-1) // operation result
@@ -190,14 +196,14 @@ class CaptureNumber private (private[reva] val v:Double, private[reva] val isCon
   def project = v
   
   // more complicated
-  def pow(p:Double) = {
+  def pow(pw:Double) = {
     if(v<0.0) {
       throw new IllegalStateException("Tried to pow() negative number")
     }
-    if(exp==0.0) {
+    if(pw==0.0) {
       FCapture.one
     } else {
-      new CaptureNumber(scala.math.pow(v,p),FCapture.powOp(p),List(this))
+      new CaptureNumber(scala.math.pow(v,pw),FCapture.powOp(pw),List(this))
     }
   }
   
