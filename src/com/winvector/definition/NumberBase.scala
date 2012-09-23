@@ -8,8 +8,7 @@ package com.winvector.definition
 
 
 abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
-  // get around type issues
-  def self:NUMBERTYPE  // return this (do it where we know concrete types, can't be implemented here as def self:NUMBERTYPE = { this } )
+  this: NUMBERTYPE => // self type, see http://stackoverflow.com/questions/12556558/how-to-declare-type-parametrized-arithmetic-in-scala and http://stackoverflow.com/questions/1990948/what-is-the-difference-between-scala-self-types-and-trait-subclasses
   // basic arithmetic
   def + (that: NUMBERTYPE):NUMBERTYPE
   def - (that: NUMBERTYPE):NUMBERTYPE
@@ -58,14 +57,13 @@ abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
   def field:Field[NUMBERTYPE]
   // derived
   def neg:NUMBERTYPE = {
-    field.zero - self
+    field.zero - this
   }
   def unary_-():NUMBERTYPE = {
-    field.zero - self
+    field.zero - this
   } 
   def sq:NUMBERTYPE = { 
-    val e = self
-    e*e
+    this*this
   }
   def sigmoid:NUMBERTYPE = {
     val e = exp
@@ -73,21 +71,21 @@ abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
   }
   def abs:NUMBERTYPE = {
     if(project>=0.0) {
-      self
+      this
     } else {
-      field.zero - self
+      field.zero - this
     }
   }
   def max(that: NUMBERTYPE):NUMBERTYPE = {
     if(this>=that) {
-      self
+      this
     } else {
       that
     }
   }
   def min(that: NUMBERTYPE):NUMBERTYPE = {
     if(this<=that) {
-      self
+      this
     } else {
       that
     }

@@ -69,7 +69,6 @@ class MDouble private[implementation] (private[implementation] val v:Double) ext
   def sqrt = new MDouble(scala.math.sqrt(v))
 
   // utility
-  def self = { this }
   def field:Field[MDouble] = FDouble
   override def toString = "%g" format v
   

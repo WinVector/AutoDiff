@@ -77,7 +77,6 @@ class DualNumber private[implementation] (private [implementation] val std:Doubl
   }
               
   // utility
-  def self = { this }
   def field:Field[DualNumber] = FDualNumber
   override def toString = "(" + std + "," + inf +")"
   

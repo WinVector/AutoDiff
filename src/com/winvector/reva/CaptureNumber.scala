@@ -228,7 +228,6 @@ class CaptureNumber private (private[reva] val v:Double, private[reva] val isCon
 
 
   // utility
-  def self = { this }
   def field:Field[CaptureNumber] = FCapture
   override def toString = "" + v
   
