@@ -7,7 +7,9 @@ package com.winvector.test
  */
 
 
-import junit.framework.TestCase
+import org.scalatest.junit.AssertionsForJUnit
+import org.junit.Assert._
+import org.junit.Test
 
 import com.winvector.definition.NumberBase
 import com.winvector.implementation.DualNumber
@@ -17,9 +19,9 @@ import com.winvector.implementation.MDouble
 import com.winvector.reva.CaptureNumber
 import com.winvector.reva.FCapture
 
-import junit.framework.Assert.assertTrue
 
-class TestAlgebraRelns extends TestCase {
+
+class TestAlgebraRelns extends AssertionsForJUnit {
   val debug:Boolean = false
   val epsilon:Double = 1.0e-6
   val base:Array[Double] = Array(1.3,4.5,-2,0,6.0,0.0,1.0,-1.0,2,-1.3,-6,-4.5,10,20,100,-100,1.0e-3,-1.0e-3,0.1,-0.1,1e+3,-1e+3)
@@ -102,7 +104,7 @@ class TestAlgebraRelns extends TestCase {
   }
 
   
-  def testAlgMDouble:Unit = {
+  @Test def testAlgMDouble:Unit = {
     val n = base.length
     val a = new Array[MDouble](n)
     for(i <- 0 to (n-1)) {
@@ -112,7 +114,7 @@ class TestAlgebraRelns extends TestCase {
   }
 
   
-  def testAlgDualNumber:Unit = {
+  @Test def testAlgDualNumber:Unit = {
     val zeroEquivs:Array[DualNumber] = Array( 
       FDualNumber.zero, 
       FDualNumber.delta, 
@@ -132,7 +134,7 @@ class TestAlgebraRelns extends TestCase {
   }
   
   
-  def testAlgCaptureNumber:Unit = {
+  @Test def testAlgCaptureNumber:Unit = {
     val n = base.length
     val a = new Array[CaptureNumber](n)
     for(i <- 0 to (n-1)) {

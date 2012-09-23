@@ -7,7 +7,9 @@ package com.winvector.test
  */
 
 
-import junit.framework.TestCase
+import org.scalatest.junit.AssertionsForJUnit
+import org.junit.Assert._
+import org.junit.Test
 
 import com.winvector.definition.NumberBase
 import com.winvector.definition.VectorFN
@@ -16,13 +18,13 @@ import com.winvector.implementation.FwdDiff
 import com.winvector.opt.CG
 import com.winvector.reva.RevDiff
 
-import junit.framework.Assert.assertTrue
 
 
-class TestDemo extends TestCase {
+
+class TestDemo extends AssertionsForJUnit {
   
   
-  def testDemo:Unit = {
+  @Test def testDemo:Unit = {
     val dat:Array[Array[Double]] = Array(
       Array( 20, 0.0),
       Array( -1.0, 1.0),

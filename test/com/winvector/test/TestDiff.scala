@@ -9,7 +9,10 @@ package com.winvector.test
 
 import java.util.Random
 
-import junit.framework.TestCase
+import org.scalatest.junit.AssertionsForJUnit
+import org.junit.Assert._
+import org.junit.Test
+
 
 import com.winvector.definition.NumberBase
 import com.winvector.definition.VectorFN
@@ -23,11 +26,11 @@ import com.winvector.reva.RevDiff
 import com.winvector.reva.RevDiffQ
 import com.winvector.reva.RevDiffS
 
-import junit.framework.Assert.assertTrue
 
 
 
-class TestDiff extends TestCase {
+
+class TestDiff extends AssertionsForJUnit {
   
   // a is reference truth
   def equiv(a:Double,b:Double):Boolean = {
@@ -87,7 +90,7 @@ class TestDiff extends TestCase {
   }
   
   
-  def testFPlus:Unit = {
+  @Test def testFPlus:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0) + p(1)
@@ -98,7 +101,7 @@ class TestDiff extends TestCase {
   }
   
   
-  def testFMinus:Unit = {
+  @Test def testFMinus:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0) - p(1)
@@ -109,7 +112,7 @@ class TestDiff extends TestCase {
   }
 
   
-  def testFNeg:Unit = {
+  @Test def testFNeg:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         -p(0)
@@ -120,7 +123,7 @@ class TestDiff extends TestCase {
   }
 
   
-  def testFTimes:Unit = {
+  @Test def testFTimes:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0) * p(1)
@@ -131,7 +134,7 @@ class TestDiff extends TestCase {
   }
 
   
-  def testFDiv:Unit = {
+  @Test def testFDiv:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0) / p(1)
@@ -142,7 +145,7 @@ class TestDiff extends TestCase {
   }
 
   
-  def testFExp:Unit = {
+  @Test def testFExp:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).exp
@@ -153,7 +156,7 @@ class TestDiff extends TestCase {
   }
 
   
-  def testFLog:Unit = {
+  @Test def testFLog:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).log
@@ -164,7 +167,7 @@ class TestDiff extends TestCase {
   }
 
   
-  def testFSq:Unit = {
+  @Test def testFSq:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).sq
@@ -175,7 +178,7 @@ class TestDiff extends TestCase {
   }
 
   
-  def testFSqrt:Unit = {
+  @Test def testFSqrt:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).sqrt
@@ -186,7 +189,7 @@ class TestDiff extends TestCase {
   }
 
   
-  def testFAbs:Unit = {
+  @Test def testFAbs:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).abs
@@ -197,7 +200,7 @@ class TestDiff extends TestCase {
   }
 
   
-  def testFMax:Unit = {
+  @Test def testFMax:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).max(p(1))
@@ -208,7 +211,7 @@ class TestDiff extends TestCase {
   }
 
   
-  def testFMin:Unit = {
+  @Test def testFMin:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).min(p(1))
@@ -219,7 +222,7 @@ class TestDiff extends TestCase {
   }
   
   
-  def testFSin:Unit = {
+  @Test def testFSin:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).sin
@@ -230,7 +233,7 @@ class TestDiff extends TestCase {
   }
   
   
-  def testFCos:Unit = {
+  @Test def testFCos:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).cos
@@ -241,7 +244,7 @@ class TestDiff extends TestCase {
   }
   
   
-  def testFTan:Unit = {
+  @Test def testFTan:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).tan
@@ -252,7 +255,7 @@ class TestDiff extends TestCase {
   }
   
   
-  def testFASin:Unit = {
+  @Test def testFASin:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).asin
@@ -263,7 +266,7 @@ class TestDiff extends TestCase {
   }
   
   
-  def testFACos:Unit = {
+  @Test def testFACos:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).acos
@@ -274,7 +277,7 @@ class TestDiff extends TestCase {
   }
   
   
-  def testFAtan:Unit = {
+  @Test def testFAtan:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).atan
@@ -285,7 +288,7 @@ class TestDiff extends TestCase {
   }
   
   
-  def testFSinh:Unit = {
+  @Test def testFSinh:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).sinh
@@ -296,7 +299,7 @@ class TestDiff extends TestCase {
   }
   
   
-  def testFCosh:Unit = {
+  @Test def testFCosh:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).cosh
@@ -307,7 +310,7 @@ class TestDiff extends TestCase {
   }
   
   
-  def testFTanh:Unit = {
+  @Test def testFTanh:Unit = {
     val genericFx = new VectorFN {
       def apply[Y <: NumberBase[Y]](p:Array[Y]):Y = {
         p(0).tanh
@@ -318,7 +321,7 @@ class TestDiff extends TestCase {
   }
 
   
-  def testRevSumDiff:Unit = {
+  @Test def testRevSumDiff:Unit = {
     val rand = new Random(532523)
     val n = 20
     val m = n + n/2

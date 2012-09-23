@@ -7,7 +7,9 @@ package com.winvector.test
  */
 
 
-import junit.framework.TestCase
+import org.scalatest.junit.AssertionsForJUnit
+import org.junit.Assert._
+import org.junit.Test
 
 import com.winvector.definition.NumberBase
 import com.winvector.definition.Field
@@ -18,7 +20,7 @@ import com.winvector.implementation.MDouble
 import com.winvector.reva.CaptureNumber
 import com.winvector.reva.FCapture
 
-import junit.framework.Assert.fail
+
 
 /**
  * This set of tests performs operations on both MDoubles (our reference implementation) and the test types to see they get equivalent results
@@ -28,7 +30,7 @@ import junit.framework.Assert.fail
  * TODO: put back suppressed ops and add in new ops (sigmoid)
  *
  */
-class TestArithOps extends TestCase {
+class TestArithOps extends AssertionsForJUnit {
   val unaryOps:Array[String] = Array("abs", "sqrt", "log", "exp", "unary_$minus", "sq",
 		                     "sin", "cos", "tan", "sinh", "cosh",  "tanh", "asin", "acos", "atan")
   val binaryOps:Array[String] = Array(/* "min", "max",*/ "$plus", "$minus", "$times", "$div")
@@ -164,13 +166,13 @@ class TestArithOps extends TestCase {
   }
   
   
-  def testNull:Unit = {
+  @Test def testNull:Unit = {
     val zeroEquivs:Array[MDouble] = Array(FDouble.zero)
     testOps(FDouble, zeroEquivs) // not much of a test as test == ref
   }
   
   
-  def testDualNumber:Unit = {
+  @Test def testDualNumber:Unit = {
     val zeroEquivs:Array[DualNumber] = Array( 
       FDualNumber.zero, 
       FDualNumber.delta, 
@@ -180,7 +182,7 @@ class TestArithOps extends TestCase {
   }
   
   
-  def testCaptureNumber:Unit = {
+  @Test def testCaptureNumber:Unit = {
     val zeroEquivs:Array[CaptureNumber] = Array(FCapture.zero)
     testOps(FCapture, zeroEquivs)
   }

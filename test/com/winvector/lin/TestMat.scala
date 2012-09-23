@@ -1,7 +1,8 @@
 package com.winvector.lin
 
-import org.scalatest.junit.JUnitSuite
-import junit.framework.TestCase
+import org.scalatest.junit.AssertionsForJUnit
+import org.junit.Assert._
+import org.junit.Test
 
 import com.winvector.definition.NumberBase
 import com.winvector.definition.VectorFN
@@ -9,13 +10,12 @@ import com.winvector.implementation.FwdDiff
 import com.winvector.implementation.MDouble
 import com.winvector.implementation.FDouble
 
-import junit.framework.Assert.assertTrue
 
 
 
-class TestMat extends JUnitSuite {
+class TestMat extends AssertionsForJUnit {
 
-  def testMat1:Unit = {
+  @Test def testMat1:Unit = {
         //val m = Matrix(FDouble,Array(Array(3, 2), Array(1, 1)))
         val m = FDouble.injectM(Array(Array(3, 2), Array(1, 1)))
         val inv = m.identity(m.rows)/m

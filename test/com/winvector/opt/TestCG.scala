@@ -8,20 +8,22 @@ package com.winvector.opt
 
 
 
-import junit.framework.TestCase
+import org.scalatest.junit.AssertionsForJUnit
+import org.junit.Assert._
+import org.junit.Test
 
 import com.winvector.definition.NumberBase
 import com.winvector.definition.VectorFN
 import com.winvector.implementation.FwdDiff
 
-import junit.framework.Assert.assertTrue
 
 
 
-class TestCG extends TestCase {
+
+class TestCG extends AssertionsForJUnit {
 
   
-  def testGC:Unit = {
+  @Test def testGC:Unit = {
     val center:Array[Double] = Array(2.2,-3,3.4,5.0)
     
     val genericFx = new VectorFN {

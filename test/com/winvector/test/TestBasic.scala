@@ -7,7 +7,9 @@ package com.winvector.test
  */
 
 
-import junit.framework.TestCase
+import org.scalatest.junit.AssertionsForJUnit
+import org.junit.Assert._
+import org.junit.Test
 
 import com.winvector.definition.NumberBase
 import com.winvector.definition.Field
@@ -15,11 +17,9 @@ import com.winvector.implementation.FDouble
 import com.winvector.implementation.FDualNumber
 import com.winvector.reva.FCapture
 
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
 
 
-class TestBasic extends TestCase {
+class TestBasic extends AssertionsForJUnit {
   
   def checkNear[Y<:NumberBase[Y]](field:Field[Y],a:Double,b:Y):Unit = {
     assertTrue(scala.math.abs(a-b.project)<=1.0e-5)  
@@ -76,17 +76,17 @@ class TestBasic extends TestCase {
   }
   
   
-  def testMDouble:Unit = {
+  @Test def testMDouble:Unit = {
     testStdF(FDouble)
   }
   
   
-  def testDual:Unit = {
+  @Test def testDual:Unit = {
     testStdF(FDualNumber)
   }
 
   
-  def testCapture:Unit = {
+  @Test def testCapture:Unit = {
     testStdF(FCapture)
   }
 

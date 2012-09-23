@@ -7,18 +7,20 @@ package com.winvector.opt
  */
 
 
-import junit.framework.TestCase
+import org.scalatest.junit.AssertionsForJUnit
+import org.junit.Assert._
+import org.junit.Test
 
 import com.winvector.definition.NumberBase
 import com.winvector.definition.VectorFN
 import com.winvector.implementation.FwdDiff
 
-import junit.framework.Assert.assertTrue
 
-class TestLinMin extends TestCase {
+
+class TestLinMin extends AssertionsForJUnit {
   
   
-  def testParabola:Unit = {
+  @Test def testParabola:Unit = {
     val center:Double = 7.2
     def f(x:Double):Double = { (x-center)*(x-center) + 3.3 }
     val b = LinMin.parabolaMin(1.0,f(1.0),2.0,f(2.0),3.0,f(3.0))
@@ -26,7 +28,7 @@ class TestLinMin extends TestCase {
   }
   
   
-  def testLinMin:Unit = {
+  @Test def testLinMin:Unit = {
     val center:Double = 7.2
     def f(x:Double):Double = { (x-center)*(x-center) + 3.3 }
     val (xmin,fxmin) = LinMin.linMin(f,100)
@@ -34,7 +36,7 @@ class TestLinMin extends TestCase {
   }
   
   
-  def testLinMinGeneric:Unit = {
+  @Test def testLinMinGeneric:Unit = {
     val center:Double = 7.2
     
     val genericFx = new VectorFN {
