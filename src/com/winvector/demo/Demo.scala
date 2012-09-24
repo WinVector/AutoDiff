@@ -47,7 +47,7 @@ object Demo {
     def smoothSQRT[Y <: NumberBase[Y]](x:Y) = {
       val field = x.field
       val tau = field.inject(1.0e-4)
-      (x+tau).pow(0.5)
+      (x+tau).pospow(0.5)
     }
     
 

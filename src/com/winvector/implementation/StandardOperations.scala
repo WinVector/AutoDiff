@@ -204,9 +204,9 @@ object StandardOperations {
 	 }
 	 
 	 val paramOps = Map(
-	     "pow" -> new ParamOp {
+	     "pospow" -> new ParamOp {
 	        def apply[Y<:NumberBase[Y]](x:Y,p:Double):Y = {
-               x.pow(p)
+               x.pospow(p)
             }	       
 	     }
 	 )

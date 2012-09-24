@@ -15,7 +15,7 @@ abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
   def * (that: NUMBERTYPE):NUMBERTYPE
   def / (that: NUMBERTYPE):NUMBERTYPE  // that not equal to zero
   // more complicated
-  def pow(that:Double):NUMBERTYPE // this is positive and anything to the zero is one (since power is not a varying argument)
+  def pospow(that:Double):NUMBERTYPE // both "this" and that should be positive 
   def exp:NUMBERTYPE
   def log:NUMBERTYPE // this is positive
   def sqrt:NUMBERTYPE
@@ -88,6 +88,29 @@ abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
       this
     } else {
       that
+    }
+  }
+  def ipow(pw:Int):NUMBERTYPE = {
+    if(pw<=3) { // small cases and all negative numbers
+      pw match {
+        case 3 => this*this*this
+        case 2 => this*this
+        case 1 => this
+        case 0 => field.one
+        case -1 => field.one/this
+        case -2 => field.one/(this*this)
+        case -3 => field.one/(this*this*this)
+        case _ => (field.one/this).ipow(-pw) 
+      }
+    } else { // pw>0 and pw = 2*p2 + p1
+      // recurse on x^pw = (x^p2)^2 (x^p1)
+      val p2 = pw/2
+      val p1 = pw - 2*p2
+      val x2 = ipow(p2)
+      p1 match {
+        case 1 => x2*x2*this
+        case _ => x2*x2
+      }
     }
   }
 }

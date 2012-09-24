@@ -11,6 +11,7 @@ import com.winvector.lin.Matrix
 abstract class Field [NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
   def zero:NUMBERTYPE            // return canonical zero in field
   def one:NUMBERTYPE             // return canonical one in field
+  def nan:NUMBERTYPE		     // illegal number
   def inject(v:Double):NUMBERTYPE  // return canonical representation of number in field
   def array(n:Int):Array[NUMBERTYPE] // return an array of this type
   def injectA(v:Array[Double]):Array[NUMBERTYPE] = {

@@ -13,9 +13,11 @@ final object FDualNumber extends Field[DualNumber] {
   private val z = new DualNumber(0.0,0.0)
   private val o = new DualNumber(1.0,0.0)
   private val i = new DualNumber(0.0,1.0)
+  private val na = new DualNumber(Double.NaN,Double.NaN)
   def zero = z
   def one = o
   def delta = i
+  def nan = na
   def inject(v:Double) = { 
     v match {
       case 0.0 => z
@@ -43,31 +45,34 @@ final class DualNumber private[implementation] (private [implementation] val std
   def * (that: DualNumber) = new DualNumber(std * that.std,std * that.inf + inf * that.std)
   def / (that: DualNumber) = {
     if(that.std==0.0) {
-      throw new IllegalArgumentException("Tried to divide by zero")
+        new DualNumber(Double.NaN,Double.NaN)
+    } else {
+    	new DualNumber(std/that.std,(inf*that.std-std*that.inf)/(that.std*that.std))
     }
-    new DualNumber(std/that.std,(inf*that.std-std*that.inf)/(that.std*that.std))
   }
   
   def project = std
   
   // more complicated
-  def pow(pw:Double) = {
-    if(std<0) {
-      throw new IllegalStateException("Tried to pow() negative number")
-    }
-    if(pw==0.0) {
-      FDualNumber.one
-    } else { 
-      val p = scala.math.pow(std,pw) 
-      new DualNumber(p,pw*p*inf/std)
+  def pospow(pw:Double) = {
+    if(std<0.0) {
+      FDualNumber.nan
+    } else {
+       if(pw==0.0) {
+          FDualNumber.one
+       } else { 
+          val p = scala.math.pow(std,pw) 
+          new DualNumber(p,pw*p*inf/std)
+       }
     }
   }
   
   def log = {
     if(std<=0) {
-      throw new IllegalStateException("Tried to log() non-positive number")
+        new DualNumber(Double.NaN,Double.NaN)
+    } else {
+    	new DualNumber(scala.math.log(std),inf/std)
     }
-    new DualNumber(scala.math.log(std),inf/std)
   }
   
   def exp = {
@@ -76,10 +81,11 @@ final class DualNumber private[implementation] (private [implementation] val std
   }
   def sqrt = {
     if(std<0) {
-      throw new IllegalStateException("Tried to sqrt() negative number")
+      FDualNumber.nan
+    } else {
+      val s = scala.math.sqrt(std)
+      new DualNumber(s,inf/(2*s))
     }
-    val s = scala.math.sqrt(std)
-    new DualNumber(s,inf/(2*s))
   }
               
   // utility

@@ -17,8 +17,10 @@ import com.winvector.definition.Field
 final object FDouble extends Field[MDouble] {
   private val z = new MDouble(0.0)
   private val o = new MDouble(1.0)
+  private val na = new MDouble(Double.NaN)
   def zero= z
   def one = o
+  def nan = na
   def inject(v:Double) = {
     v match {
       case 0.0 => z
@@ -45,22 +47,24 @@ final class MDouble private[implementation] (private[implementation] val v:Doubl
   def * (that: MDouble) = new MDouble(v * that.v)
   def / (that: MDouble) = {
     if(that.v==0.0) {
-      throw new IllegalArgumentException("Tried to divide by zero")
+       FDouble.nan
+    } else {
+       new MDouble(v / that.v)
     }
-    new MDouble(v / that.v)
   }
 
   def project = v
 
   // more complicated
-  def pow(pw:Double) = {
+  def pospow(pw:Double) = {
     if(v<0.0) {
-      throw new IllegalStateException("Tried to pow() negative number")
-    }
-    if(pw==0.0) {
-      FDouble.one
+      FDouble.nan
     } else {
-      new MDouble(scala.math.pow(v,pw))
+      if(pw==0.0) {
+        FDouble.one
+      } else {
+        new MDouble(scala.math.pow(v,pw))
+      }
     }
   }
   
@@ -68,9 +72,10 @@ final class MDouble private[implementation] (private[implementation] val v:Doubl
   
   def log = {
     if(v<=0.0) {
-      throw new IllegalStateException("Tried to log() non-positive number: " + v)
+      FDouble.nan
+    } else {
+    	new MDouble(scala.math.log(v))
     }
-    new MDouble(scala.math.log(v))
   }
   def sqrt = new MDouble(scala.math.sqrt(v))
 

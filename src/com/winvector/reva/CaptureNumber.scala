@@ -16,8 +16,10 @@ final object FCapture extends Field[CaptureNumber] {
   val idSource = new IDSource()
   private val z = new CaptureNumber(0.0)
   private val o = new CaptureNumber(1.0)
+  private val na = new CaptureNumber(Double.NaN)
   def zero = z
   def one = o
+  def nan = na
   def inject(v:Double) = {  // constant 
     v match {
       case 0.0 => z
@@ -188,22 +190,24 @@ final class CaptureNumber private (private[reva] val v:Double, private[reva] val
   def * (that: CaptureNumber) = new CaptureNumber(v * that.v,FCapture.timesOp,List(this,that))
   def / (that: CaptureNumber) = {
     if(that.v==0.0) {
-      throw new IllegalArgumentException("Tried to divide by zero")
+      FCapture.nan
+    } else {
+      new CaptureNumber(v / that.v,FCapture.divOp,List(this,that))
     }
-    new CaptureNumber(v / that.v,FCapture.divOp,List(this,that))
   }
   
   def project = v
   
   // more complicated
-  def pow(pw:Double) = {
+  def pospow(pw:Double) = {
     if(v<0.0) {
-      throw new IllegalStateException("Tried to pow() negative number")
-    }
-    if(pw==0.0) {
-      FCapture.one
+      FCapture.nan
     } else {
-      new CaptureNumber(scala.math.pow(v,pw),FCapture.powOp(pw),List(this))
+       if(pw==0.0) {
+         FCapture.one
+       } else {
+         new CaptureNumber(scala.math.pow(v,pw),FCapture.powOp(pw),List(this))
+       }
     }
   }
   
@@ -211,12 +215,13 @@ final class CaptureNumber private (private[reva] val v:Double, private[reva] val
   
   def log = {
     if(v<=0.0) {
-      throw new IllegalStateException("Tried to log() non-positive number: " + v)
+      FCapture.nan
+    } else {
+       new CaptureNumber(scala.math.log(v),FCapture.logOp,List(this))
     }
-    new CaptureNumber(scala.math.log(v),FCapture.logOp,List(this))
   }
   
-  def sqrt = { pow(0.5) }
+  def sqrt = { pospow(0.5) }
   override def abs = new CaptureNumber(scala.math.abs(v),FCapture.absOp,List(this))
   override def max(o:CaptureNumber) = new CaptureNumber(scala.math.max(v,o.v),FCapture.maxOp,List(this,o))
   override def min(o:CaptureNumber) = new CaptureNumber(scala.math.min(v,o.v),FCapture.minOp,List(this,o))

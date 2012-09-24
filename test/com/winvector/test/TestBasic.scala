@@ -69,7 +69,7 @@ class TestBasic extends JUnitSuite {
         assertEquals(a(i)<a(j),field.inject(a(i))<field.inject(a(j)))
         assertEquals(a(i)<=a(j),field.inject(a(i))<=field.inject(a(j)))
         if((a(i)>0.0)&&(scala.math.abs(a(j))<20)) {
-          checkNear(field,scala.math.pow(a(i),a(j)),field.inject(a(i)).pow(a(j)))
+          checkNear(field,scala.math.pow(a(i),a(j)),field.inject(a(i)).pospow(a(j)))
         }
       }
     }

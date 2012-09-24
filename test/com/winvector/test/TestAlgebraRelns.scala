@@ -47,14 +47,14 @@ class TestAlgebraRelns extends FunSuite {
     }
     if(a>field.zero) {
       assertTrue(field.representationNorm(a.log.exp-a)<epsilon)
-      assertTrue(field.representationNorm(((a.log*field.inject(1.3)).exp)-(a.pow(1.3)))<epsilon)
-      assertTrue(field.representationNorm(a.pow(2.0)-a*a)<epsilon)
-      assertTrue(field.representationNorm(a.pow(0.5)*a.pow(0.5)-a)<epsilon)
-      assertTrue(field.representationNorm(a.pow(-1.0)*a-field.one)<epsilon)
-      assertTrue(field.representationNorm(a.pow(-0.5)*a.pow(-0.5)-field.one/a)<epsilon)
-      assertTrue(field.representationNorm(a.pow(-1.0)*a-field.one)<epsilon)
-      assertTrue(field.representationNorm(a*a.pow(-1.0)-field.one)<epsilon)
-      assertTrue(field.representationNorm(a.pow(0.0)-field.one)<epsilon)
+      assertTrue(field.representationNorm(((a.log*field.inject(1.3)).exp)-(a.pospow(1.3)))<epsilon)
+      assertTrue(field.representationNorm(a.pospow(2.0)-a*a)<epsilon)
+      assertTrue(field.representationNorm(a.pospow(0.5)*a.pospow(0.5)-a)<epsilon)
+      assertTrue(field.representationNorm(a.pospow(-1.0)*a-field.one)<epsilon)
+      assertTrue(field.representationNorm(a.pospow(-0.5)*a.pospow(-0.5)-field.one/a)<epsilon)
+      assertTrue(field.representationNorm(a.pospow(-1.0)*a-field.one)<epsilon)
+      assertTrue(field.representationNorm(a*a.pospow(-1.0)-field.one)<epsilon)
+      assertTrue(field.representationNorm(a.pospow(0.0)-field.one)<epsilon)
     }
   }
 
@@ -65,7 +65,7 @@ class TestAlgebraRelns extends FunSuite {
     assertTrue(field.representationNorm((a-b)+(b-a))<epsilon)
     assertTrue(field.representationNorm((a*b)-(b*a))<epsilon)
     if(a+b>field.zero) {
-      assertTrue(field.representationNorm((a+b).pow(2.0) - (a*a + b*b + a*b + a*b))<epsilon)
+      assertTrue(field.representationNorm((a+b).pospow(2.0) - (a*a + b*b + a*b + a*b))<epsilon)
     }
     if(b!=field.zero) {
       assertTrue(field.representationNorm(((a/b)*b)-a)<epsilon)
