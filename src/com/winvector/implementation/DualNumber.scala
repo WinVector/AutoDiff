@@ -45,7 +45,7 @@ final class DualNumber private[implementation] (private [implementation] val std
   def * (that: DualNumber) = new DualNumber(std * that.std,std * that.inf + inf * that.std)
   def / (that: DualNumber) = {
     if(that.std==0.0) {
-        new DualNumber(Double.NaN,Double.NaN)
+        FDualNumber.nan
     } else {
     	new DualNumber(std/that.std,(inf*that.std-std*that.inf)/(that.std*that.std))
     }
@@ -69,7 +69,7 @@ final class DualNumber private[implementation] (private [implementation] val std
   
   def log = {
     if(std<=0) {
-        new DualNumber(Double.NaN,Double.NaN)
+        FDualNumber.nan
     } else {
     	new DualNumber(scala.math.log(std),inf/std)
     }
