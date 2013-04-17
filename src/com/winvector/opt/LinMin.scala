@@ -107,7 +107,7 @@ object LinMin {
         println("\tlinmin initial bracket(" + evals +"): " + bracket) 
       }
       val c = 0.5*(scala.math.sqrt(5.0)-1) // about 0.618, the Fibonacci ratio
-      val tol = 1.0e-6
+      val tol = 1.0e-12
       while(((bracket.u - bracket.l)>tol)&&(evals<maxEvals)) {
           evals += 1
           if((bracket.u - bracket.m)>=(bracket.m - bracket.l)) {

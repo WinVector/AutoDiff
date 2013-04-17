@@ -27,6 +27,18 @@ object HelperFns {
 
   def normSQ(x:Array[Double]) = dot(x,x)
   
+
+  
+  def distSQ(x:Array[Double],y:Array[Double]):Double = {
+    var r:Double = 0.0
+    val dim = x.length
+    for(i <- 0 to (dim-1)) {
+      val di = x(i)-y(i)
+      r = r + di*di
+    }
+    r
+  }
+  
   def addD(a:Array[Double],wb:Double,b:Array[Double]) = {
     val dim = a.length
     val r = new Array[Double](dim)

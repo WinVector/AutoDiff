@@ -76,6 +76,15 @@ abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
       field.zero - this
     }
   }
+  def sign:NUMBERTYPE = {
+     if(project>0.0) {
+      field.one
+    } else if(project<0.0) {
+      field.one.neg
+    } else {
+      field.zero
+    }
+  }
   def max(that: NUMBERTYPE):NUMBERTYPE = {
     if(this>=that) {
       this
@@ -113,4 +122,5 @@ abstract class NumberBase[NUMBERTYPE <: NumberBase[NUMBERTYPE]] {
       }
     }
   }
+  def ^ (that: NUMBERTYPE):NUMBERTYPE = (that * log).exp
 }

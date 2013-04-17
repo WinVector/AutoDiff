@@ -10,7 +10,7 @@ import com.winvector.definition.GFunction
 import com.winvector.implementation.HelperFns._
 
 object CG {
-  var debug = false;
+  var debug = false
 
   // main state
   class CGState(fn:GFunction) {
@@ -59,13 +59,24 @@ object CG {
   }
   
 
+  def subnormalize(x:Array[Double]):Array[Double] = {
+    val n = 1.0+scala.math.sqrt(normSQ(x))
+    val r = new Array[Double](x.length);
+    for(i <- 0 to (x.length-1)) {
+      r(i) = x(i)/n
+    }
+    r
+  }
+  
+  
   def minimize(fn:GFunction,x0:Array[Double]):(Array[Double],Double) = { // return x,f(x)
     val cg = new CGState(fn)
     val tol = 1.0e-8
     var normTooSmall = false
+    var stepTooSmall = false
     val maxSteps = 200
     var step = 0
-    while((step<=0) || ((step<maxSteps)&&(!normTooSmall))) {
+    while((step<=0) || ((step<maxSteps)&&(!normTooSmall)&&(!stepTooSmall))) {
       step += 1
       var di:Array[Double] = null
       if(step<=1) {
@@ -92,8 +103,11 @@ object CG {
       }
       val norm = normSQ(di)
       normTooSmall = norm<=tol*tol
-      if(norm>0.0) {
-        val (a,b) = LinMin.lineMinV(fn.apply,cg.curX,di)
+      if(!normTooSmall) {
+        val diNorm = subnormalize(di)
+        val (a,b) = LinMin.lineMinV(fn.apply,cg.curX,diNorm)
+        val distSq = distSQ(cg.curX,a)
+        stepTooSmall = distSq<=tol*tol
         cg.curX = a
         cg.curFx = b
         if(debug) {

@@ -23,7 +23,7 @@ import com.winvector.implementation.FwdDiff
 class TestCG extends JUnitSuite {
 
   
-  @Test def testGC:Unit = {
+  @Test def testCG:Unit = {
     val center:Array[Double] = Array(2.2,-3,3.4,5.0)
     
     val genericFx = new VectorFN {
