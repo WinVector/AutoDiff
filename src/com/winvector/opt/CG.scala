@@ -84,7 +84,7 @@ object CG {
       } else {
         di = cg.nextDirection(cg.curX)
         val dnormSq = normSQ(di)
-        if(dnormSq<tol*tol) {
+        if((step%5==0)||(dnormSq<tol*tol)) {
           di = cg.gradCur;
         }
       }
