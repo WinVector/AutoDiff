@@ -8,6 +8,7 @@ package com.winvector.opt
 
 import com.winvector.definition.GFunction
 import com.winvector.implementation.HelperFns._
+import scala.util.Random
 
 object CG {
   var debug = false
@@ -75,6 +76,16 @@ object CG {
       ubv(i) = v
     }
     (lbv, ubv)
+  }
+  
+  def randV(lv:Array[Double],uv:Array[Double],rand:Random):Array[Double] = {
+    val dim = lv.length
+    val r = new Array[Double](dim)
+    for(i <- 0 to (dim-1)) {
+      val ui = rand.nextDouble()
+      r(i) = lv(i) + ui*(uv(i)-lv(i))
+    }
+    r
   }
 
   def minimize(fn: GFunction, x0: Array[Double], lbv: Array[Double], ubv: Array[Double]): (Array[Double], Double) = { // return x,f(x)
