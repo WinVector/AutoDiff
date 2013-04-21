@@ -25,10 +25,27 @@ object HelperFns {
     r
   }
 
-  def normSQ(x:Array[Double]) = dot(x,x)
+  def normSQ(x:Array[Double]):Double = { dot(x,x) }
   
 
-  
+  def max(x:Array[Double]):Double = {
+    var r = x(0)
+    val dim = x.length
+    for(i <- 1 to (dim-1)) {
+      r = scala.math.max(r,x(i))
+    }
+    r
+  }
+
+  def min(x:Array[Double]):Double = {
+    var r = x(0)
+    val dim = x.length
+    for(i <- 1 to (dim-1)) {
+      r = scala.math.min(r,x(i))
+    }
+    r
+  }
+
   def distSQ(x:Array[Double],y:Array[Double]):Double = {
     var r:Double = 0.0
     val dim = x.length
@@ -39,14 +56,7 @@ object HelperFns {
     r
   }
   
-  def addD(a:Array[Double],wb:Double,b:Array[Double]) = {
-    val dim = a.length
-    val r = new Array[Double](dim)
-    for(i <- 0 to (dim-1)) {
-      r(i) = a(i) + wb*b(i)
-    }
-    r
-  }
+ 
   
   def neg(x:Array[Double]) = {
     val dim = x.length
@@ -78,6 +88,16 @@ object HelperFns {
     val r = new Array[Double](dim)
     for(i <- 0 to (dim-1)) {
       r(i) = x(i)
+    }
+    r
+  }
+  
+  
+  def addD(a:Array[Double],wb:Double,b:Array[Double]) = {
+    val dim = a.length
+    val r = new Array[Double](dim)
+    for(i <- 0 to (dim-1)) {
+      r(i) = a(i) + wb*b(i)
     }
     r
   }

@@ -41,7 +41,8 @@ class TestCG extends JUnitSuite {
     }
     
     val x:Array[Double] = new Array(center.length)
-    val (xmin,fxmin) = CG.minimize(new FwdDiff(genericFx),x)
+    val (lbv,ubv) = CG.defaultBounds(x.length,1000.0)
+    val (xmin,fxmin) = CG.minimize(new FwdDiff(genericFx),x,lbv,ubv)
     for(i <- 0 to (center.length-1)) {
       assertTrue(scala.math.abs(center(i)-xmin(i))<1.0e-5)        
     }     

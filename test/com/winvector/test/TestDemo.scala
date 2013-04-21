@@ -58,12 +58,14 @@ class TestDemo extends JUnitSuite {
     
     
     val p0R:Array[Double] = mean(dat)
-    val (pR,fpR) = CG.minimize(new RevDiff(genericFx),p0R)
+    val (lbvR,ubvR) = CG.defaultBounds(p0R.length,1000.0)
+    val (pR,fpR) = CG.minimize(new RevDiff(genericFx),p0R,lbvR,ubvR)
     assertTrue(scala.math.abs(pR(0)-(-0.422))<1.0e-3)
     assertTrue(scala.math.abs(pR(1)-(0.0))<1.0e-3)
 
     val p0F:Array[Double] = mean(dat)
-    val (pF,fpF) = CG.minimize(new FwdDiff(genericFx),p0F)
+    val (lbvF,ubvF) = CG.defaultBounds(p0F.length,1000.0)
+    val (pF,fpF) = CG.minimize(new FwdDiff(genericFx),p0F,lbvF,ubvF)
     assertTrue(scala.math.abs(pF(0)-(-0.422))<1.0e-3)
     assertTrue(scala.math.abs(pF(1)-(0.0))<1.0e-3)
   }

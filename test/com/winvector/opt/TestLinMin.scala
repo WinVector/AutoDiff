@@ -31,7 +31,7 @@ class TestLinMin extends JUnitSuite {
   @Test def testLinMin:Unit = {
     val center:Double = 7.2
     def f(x:Double):Double = { (x-center)*(x-center) + 3.3 }
-    val (xmin,fxmin) = LinMin.linMin(f,100)
+    val (xmin,fxmin) = LinMin.linMin(f,-1000.0,1000.0,100)
     assertTrue(scala.math.abs(center-xmin)<1.0e-5)
   }
   
@@ -51,8 +51,10 @@ class TestLinMin extends JUnitSuite {
     
     val x:Array[Double] = Array(0.0)
     val d:Array[Double] = Array(1.0)
+    val lb:Array[Double] = Array(-1000.0)
+    val ub:Array[Double] = Array(1000.0)
     
-    val (xmin,fxmin) = LinMin.lineMinV((new FwdDiff(genericFx)).apply,x,d)
+    val (xmin,fxmin) = LinMin.lineMinV((new FwdDiff(genericFx)).apply,x,d,lb,ub)
     assertTrue(scala.math.abs(center-xmin(0))<1.0e-5)
   }
   

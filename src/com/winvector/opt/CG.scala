@@ -13,23 +13,22 @@ object CG {
   var debug = false
 
   // main state
-  class CGState(fn:GFunction) {
-    var curX:Array[Double] = null
-    var curFx:Double = 0.0
-    var gradPrev:Array[Double] = null
-    var gradCur:Array[Double] = null
-    var dirPrev:Array[Double] = null
-    var dirCur:Array[Double] = null
-
+  class CGState(fn: GFunction) {
+    var curX: Array[Double] = null
+    var curFx: Double = 0.0
+    var gradPrev: Array[Double] = null
+    var gradCur: Array[Double] = null
+    var dirPrev: Array[Double] = null
+    var dirCur: Array[Double] = null
 
     // different formulas for Beta
-    def fletcherReeves() = dot(gradCur,gradCur)/dot(gradPrev,gradPrev)
-    def polakRibiere() = dot(gradCur,sub(gradCur,gradPrev))/dot(gradPrev,gradPrev)
+    def fletcherReeves() = dot(gradCur, gradCur) / dot(gradPrev, gradPrev)
+    def polakRibiere() = dot(gradCur, sub(gradCur, gradPrev)) / dot(gradPrev, gradPrev)
 
-    val betaFn:()=>Double = fletcherReeves
+    val betaFn: () => Double = fletcherReeves
 
-    def init(x:Array[Double]):Array[Double] = {
-      val (fx,gf) = fn.gradEval(x)
+    def init(x: Array[Double]): Array[Double] = {
+      val (fx, gf) = fn.gradEval(x)
       curX = x
       curFx = fx
       gradCur = neg(gf)
@@ -40,55 +39,70 @@ object CG {
     }
 
     // needs gradCur and dirCur to be set
-    def nextDirection(x:Array[Double]):Array[Double] = {
+    def nextDirection(x: Array[Double]): Array[Double] = {
       gradPrev = gradCur
       dirPrev = dirCur
-      val (fx,gf) = fn.gradEval(x)
+      val (fx, gf) = fn.gradEval(x)
       curX = x
       curFx = fx
       gradCur = neg(gf)
-      val beta:Double = betaFn()
-      if(debug) {
+      val beta: Double = betaFn()
+      if (debug) {
         print("grad: ")
         printD(gradCur)
         println("beta: " + beta)
       }
-      dirCur = addD(gradCur,beta,dirPrev)
+      dirCur = addD(gradCur, beta, dirPrev)
       dirCur
     }
   }
-  
 
-  def subnormalize(x:Array[Double]):Array[Double] = {
-    val n = 1.0+scala.math.sqrt(normSQ(x))
+  def subnormalize(x: Array[Double]): Array[Double] = {
+    val n = 1.0 + scala.math.sqrt(normSQ(x))
     val r = new Array[Double](x.length);
-    for(i <- 0 to (x.length-1)) {
-      r(i) = x(i)/n
+    for (i <- 0 to (x.length - 1)) {
+      r(i) = x(i) / n
     }
     r
   }
-  
-  
-  def minimize(fn:GFunction,x0:Array[Double]):(Array[Double],Double) = { // return x,f(x)
+
+  def defaultBounds(dim: Int, v: Double): (Array[Double], Array[Double]) = {
+    assert(v > 0.0)
+    val lbv = new Array[Double](dim) // TODO: take these in as arguments
+    val ubv = new Array[Double](dim)
+    for (i <- 0 to (dim - 1)) {
+      lbv(i) = -v
+      ubv(i) = v
+    }
+    (lbv, ubv)
+  }
+
+  def minimize(fn: GFunction, x0: Array[Double], lbv: Array[Double], ubv: Array[Double]): (Array[Double], Double) = { // return x,f(x)
     val cg = new CGState(fn)
     val tol = 1.0e-8
     var normTooSmall = false
     var stepTooSmall = false
     val maxSteps = 200
     var step = 0
-    while((step<=0) || ((step<maxSteps)&&(!normTooSmall)&&(!stepTooSmall))) {
+    if (debug) {
+      print("lbv: ")
+      printD(lbv)
+      print("ubv: ")
+      printD(ubv)
+    }
+    while ((step <= 0) || ((step < maxSteps) && (!normTooSmall) && (!stepTooSmall))) {
       step += 1
-      var di:Array[Double] = null
-      if(step<=1) {
+      var di: Array[Double] = null
+      if (step <= 1) {
         di = cg.init(x0)
       } else {
         di = cg.nextDirection(cg.curX)
         val dnormSq = normSQ(di)
-        if((step%5==0)||(dnormSq<tol*tol)) {
+        if ((step % 5 == 0) || (dnormSq < tol * tol)) {
           di = cg.gradCur;
         }
       }
-      if(debug) {
+      if (debug) {
         println()
         println("----------------------------------------")
         println()
@@ -102,28 +116,39 @@ object CG {
         printD(di)
       }
       val norm = normSQ(di)
-      normTooSmall = norm<=tol*tol
-      if(!normTooSmall) {
+      normTooSmall = norm <= 0
+      if (!normTooSmall) {
         val diNorm = subnormalize(di)
-        val (a,b) = LinMin.lineMinV(fn.apply,cg.curX,diNorm)
-        val distSq = distSQ(cg.curX,a)
-        stepTooSmall = distSq<=tol*tol
+        val (a, b) = LinMin.lineMinV(fn.apply, cg.curX, diNorm, lbv, ubv)
+        val distSq = distSQ(cg.curX, a)
+        stepTooSmall = (distSq <= tol * tol)&&(b>=cg.curFx)
+        if(stepTooSmall) {
+          if(debug) {
+            println("step too small")
+          }
+        }
         cg.curX = a
         cg.curFx = b
-        if(debug) {
+        if (debug) {
           print("->x: ")
           printD(cg.curX)
           println("->f(x): " + cg.curFx)
         }
-      }
-      if(debug) {
-        println()
+      } else {
+        if (debug) {
+          println("di norm too small")
+        }
       }
     }
-    if(debug) {
+    if (debug) {
       println("done")
     }
-    (cg.curX,cg.curFx)
+    (cg.curX, cg.curFx)
+  }
+
+  def minimize(fn: GFunction, x0: Array[Double]): (Array[Double], Double) = { // return x,f(x)
+    val (lbv, ubv) = defaultBounds(x0.length, 100000000.0)
+    minimize(fn, x0, lbv, ubv)
   }
 }
 
