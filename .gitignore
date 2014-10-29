@@ -1,0 +1,12 @@
+.cache
+.scala_dependencies
+.settings/**
+bin/**
+commands.txt
+notes.txt
+*~
+.DS_Store
+lppl.tsv
+src/com/winvector/lppl/**
+.Rhistory
+

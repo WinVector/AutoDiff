@@ -81,7 +81,7 @@ object SVM {
       var sumPlus = field.zero
       var sumMinus = field.zero
       for(i <- 0 until npoint) {
-        q(i) = p(i)*p(i) + field.inject(1.e-10)
+        q(i) = p(i)*p(i) + field.inject(1.0e-10)
         if(daty(i)>0) {
           sumPlus = sumPlus + q(i)
         } else if(daty(i)<0) {
