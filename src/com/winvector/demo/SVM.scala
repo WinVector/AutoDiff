@@ -363,10 +363,12 @@ object SVM {
     
     
     
+    abstract class VectorFNP extends VectorFN {
+      def printTable(parameterArg:Array[Double],f:File):Unit 
+    }
     
     
-    
-    val pWidth = new VectorFN {
+    val pWidth = new VectorFNP {
       // return prob x in class given parameters
       def px[Y<:NumberBase[Y]](parameterArg:Array[Y],x:Array[Double]):Y = {
         val field = parameterArg(0).field
