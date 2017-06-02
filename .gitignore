@@ -9,4 +9,4 @@ notes.txt
 lppl.tsv
 src/com/winvector/lppl/**
 .Rhistory
-
+.cache*

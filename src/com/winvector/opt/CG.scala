@@ -26,7 +26,7 @@ object CG {
     def fletcherReeves() = dot(gradCur, gradCur) / dot(gradPrev, gradPrev)
     def polakRibiere() = dot(gradCur, sub(gradCur, gradPrev)) / dot(gradPrev, gradPrev)
 
-    val betaFn: () => Double = fletcherReeves
+    def betaFn() = { fletcherReeves() }
 
     def init(x: Array[Double]): Array[Double] = {
       val (fx, gf) = fn.gradEval(x)

@@ -6,7 +6,7 @@ package com.winvector.reva
  * For details/instructions see "Automatic Differentiation with Scala" from www.win-vector.com
  */
 
-import scala.collection.mutable.Stack
+import scala.collection.mutable.ArrayStack
 
 import com.winvector.definition.NumberBase
 import com.winvector.definition.Field
@@ -270,7 +270,7 @@ final class CaptureNumber private (private[reva] val v:Double, private[reva] val
   def varMap:(Array[CaptureNumber],Map[Int,Int]) = {
     val vars = new scala.collection.mutable.HashMap[Int,CaptureNumber]()
     // recurse by hand so we don't blow out call stack
-    var ndStack = new Stack[CaptureNumber]
+    var ndStack = new ArrayStack[CaptureNumber]
     ndStack.push(this)
     while(!ndStack.isEmpty) {
         val nd = ndStack.pop()
